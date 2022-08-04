@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="clientemail.view.SenderUI">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="552" height="524"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="a3d71" binding="panelSender" layout-manager="GridLayoutManager" row-count="15" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="10" left="10" bottom="10" right="30"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="4" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-2429"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="c5ec8" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="DialogInput" size="36" style="1"/>
+              <foreground color="-5017778"/>
+              <text value="CAMPAGNA-EMAIL"/>
+            </properties>
+          </component>
+          <component id="2df6d" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="46" height="17"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="DialogInput" size="14" style="1"/>
+              <text value="From:"/>
+            </properties>
+          </component>
+          <component id="57215" class="javax.swing.JTextField" binding="from">
+            <constraints>
+              <grid row="1" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="3b505" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="46" height="17"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="DialogInput" size="14" style="1"/>
+              <text value="To:"/>
+            </properties>
+          </component>
+          <component id="c242a" class="javax.swing.JTextField" binding="to">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="fe008" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="46" height="17"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="DialogInput" size="14" style="1"/>
+              <text value="Cc:"/>
+            </properties>
+          </component>
+          <component id="2b831" class="javax.swing.JTextField" binding="cc">
+            <constraints>
+              <grid row="3" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="33cd7" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="46" height="17"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="DialogInput" size="14" style="1"/>
+              <text value="Object:"/>
+            </properties>
+          </component>
+          <component id="9ee25" class="javax.swing.JTextField" binding="objectEmail">
+            <constraints>
+              <grid row="4" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <scrollpane id="1c040">
+            <constraints>
+              <grid row="8" column="3" row-span="7" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="a0786" class="javax.swing.JTextArea" binding="corpoMessaggio">
+                <constraints/>
+                <properties>
+                  <columns value="30"/>
+                  <rows value="20"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+          <component id="784bb" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-12959601"/>
+              <font name="DialogInput" size="28" style="3"/>
+              <foreground color="-12959601"/>
+              <text value="Corpo Email"/>
+            </properties>
+          </component>
+          <component id="e4101" class="javax.swing.JButton" binding="sendButton">
+            <constraints>
+              <grid row="13" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="send"/>
+            </properties>
+          </component>
+          <component id="3cb89" class="javax.swing.JButton" binding="emailFileButton">
+            <constraints>
+              <grid row="14" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="FileMail"/>
+            </properties>
+          </component>
+          <component id="5de15" class="javax.swing.JLabel" binding="labelIconTesta">
+            <constraints>
+              <grid row="10" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <vspacer id="4ca9f">
+            <constraints>
+              <grid row="11" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <component id="bc207" class="javax.swing.JButton" binding="allegaButton">
+            <constraints>
+              <grid row="12" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Allega"/>
+            </properties>
+          </component>
+          <scrollpane id="ea7c">
+            <constraints>
+              <grid row="6" column="3" row-span="2" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="46" height="24"/>
+              </grid>
+            </constraints>
+            <properties>
+              <focusable value="true"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="b6089" class="javax.swing.JTextPane" binding="attachText">
+                <constraints/>
+                <properties>
+                  <editable value="false"/>
+                  <enabled value="true"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+          <component id="41960" class="javax.swing.JLabel" binding="labelIcon">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="3e036" class="javax.swing.JLabel" binding="labelAllegati">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="46" height="18"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value="Allegati:"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
