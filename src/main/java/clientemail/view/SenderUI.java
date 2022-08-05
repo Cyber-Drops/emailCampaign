@@ -39,10 +39,18 @@ public class SenderUI {
          * chiamo il metodo initComponent() per inizializzare i componenti dell'interfaccia grafica
          */
         senderUIInstance = senderUI;
-        URL logoPng = getClass().getClassLoader().getResource("image".concat(System.getProperty("file.separator")).concat("logo100_100.png"));
-        URL testaJpg = getClass().getClassLoader().getResource("image".concat(System.getProperty("file.separator")).concat("avatarCyberDrops_Testa_150.jpg"));
-        labelIcon.setIcon(new ImageIcon(logoPng));
-        labelIconTesta.setIcon(new ImageIcon(testaJpg));
+        if (System.getProperty("os.name").contains("Windows")){
+           URL logoPng = (getClass().getClassLoader().getResource("image/logo100_100.png"));
+           URL testaJpg = getClass().getClassLoader().getResource("image/avatarCyberDrops_Testa_150.jpg");
+           labelIcon.setIcon(new ImageIcon(logoPng));
+           labelIconTesta.setIcon(new ImageIcon(testaJpg));
+        }else {
+             URL logoPng = (getClass().getClassLoader().getResource("image".concat(System.getProperty("file.separator")).concat("logo100_100.png")));
+             URL testaJpg = getClass().getClassLoader().getResource("image".concat(System.getProperty("file.separator")).concat("avatarCyberDrops_Testa_150.jpg"));
+            labelIcon.setIcon(new ImageIcon(logoPng));
+            labelIconTesta.setIcon(new ImageIcon(testaJpg));
+        }
+
         initComponent();
     }
     private  void initComponent(){
