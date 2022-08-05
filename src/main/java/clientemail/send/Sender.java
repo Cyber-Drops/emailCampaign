@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.*;
 
 public class Sender {
-    private static final String password = "vtmherotsrjpohuw";//Password google account associata all'app
+    private static  String password;//Password google account associata all'app
     private static String emailString = "";//Stringa delle email lette dal file, sono tutte separate da virgola
     public static List<File> attachFile = new ArrayList<>();//Lista degli allegati
 
@@ -127,6 +127,11 @@ public class Sender {
         }
          */
     }
+
+    public static void setPassword(String password) {
+        Sender.password = password;
+    }
+
     private static void reset(){
         SenderUI.senderUIInstance.reset();
         emailString = "";

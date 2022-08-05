@@ -5,8 +5,9 @@ import clientemail.utils.PathSelector;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.util.function.ToDoubleBiFunction;
+import java.util.Scanner;
 
 public class SenderUI {
     private JPanel mainPanel; //Pannello principale
@@ -23,6 +24,7 @@ public class SenderUI {
     private JButton allegaButton;
     private JLabel labelAllegati;
     private JTextPane attachText;
+    private JButton loadConfigButton;
     public static SenderUI senderUIInstance;
 
     public JPanel getPanelSender() {
@@ -30,12 +32,12 @@ public class SenderUI {
     }
 
     public SenderUI() {} //Blocco il costruttore di default
-    public  void sendEmail(SenderUI senderUI){
+    public  void sendEmail(SenderUI senderUI, Config configUI){
         /**
          * Setto il parametro statico di istanza, così da poter richiamare i metodi d'istanza, senza creare nuove
          * istanze.
          * Creo l'URL di riferimento per le immagini, così da poterle richiamare anche in esecuzione del file .jar,
-         * le immagini si trovano in cartella di default del proggetto resources->image
+         * le immagini si trovano in cartella di default del proggetto resources->image, il percorso è S.O. dipendente.
          * chiamo il metodo initComponent() per inizializzare i componenti dell'interfaccia grafica
          */
         senderUIInstance = senderUI;
@@ -51,9 +53,9 @@ public class SenderUI {
             labelIconTesta.setIcon(new ImageIcon(testaJpg));
         }
 
-        initComponent();
+        initComponent(configUI);
     }
-    private  void initComponent(){
+    private  void initComponent(Config configUI){
         /**
          * Gestito evento pressione sul:
          * 1) sendButton, il quale chiama il metodo statico send della classe Sender, passandogli le Stringhe prelevate
@@ -96,6 +98,27 @@ public class SenderUI {
                 throw new RuntimeException(ex);
             }
         });
+        loadConfigButton.addActionListener(e->{
+            settaConfigurazione(configUI);
+        });
+    }
+
+    private void settaConfigurazione(Config configUI){
+        configUI.setConfig();
+        String parametri = "";
+        try {
+            System.out.println(configUI.getConfig());
+            Scanner scanner = new Scanner(configUI.getConfig());
+            while (scanner.hasNext()) {
+                parametri = scanner.nextLine();
+            }
+            String[] parametriArray = parametri.split(",");
+            from.setText(parametriArray[0]);
+            Sender.setPassword(parametriArray[1]);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
     public void reset(){
         /**
