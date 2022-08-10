@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SenderUI {
@@ -71,7 +72,6 @@ public class SenderUI {
         // TODO Creare una barra di caricamento, che visualizzi il tempo per l'invio delle email.
         sendButton.addActionListener(e -> {
             Sender.send(from.getText(), to.getText(), cc.getText(), objectEmail.getText(), corpoMessaggio.getText());
-            Sender.attachFile.clear();
         });
         emailFileButton.addActionListener(e -> {
             try {
@@ -130,6 +130,7 @@ public class SenderUI {
             objectEmail.setText("");
             corpoMessaggio.setText("");
             attachText.setText("");
+            Sender.attachFile.clear();
             sendProgressBar.setValue(0);
             SenderUI.senderUIInstance.setToFocusable(true);
             return true;

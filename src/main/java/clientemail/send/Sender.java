@@ -122,16 +122,16 @@ public class Sender {
         /**
          *
          */
-        try {
-            EmailConstructor.checkEmail(from,to,cc,emailString);
-        } catch (EmailFormatError e) {
-            return;
-        }
 
         Session session = createSession(from);
 
         MimeMessage message = componiMessaggio(session, from, to, cc, objectEamil, corpoMessaggio);
+        try {
+            EmailConstructor.checkEmail(from,to,cc,emailString);
 
+        } catch (EmailFormatError e) {
+            return;
+        }
         //MultiThreading, un processo gestisce la progressBar ed un processo l'invio della mail
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
