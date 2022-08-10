@@ -1,8 +1,7 @@
 package clientemail.send;
 
-
+import clientemail.exception.EmailFormatError;
 import clientemail.view.SenderUI;
-
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.*;
@@ -10,27 +9,80 @@ import javax.mail.internet.*;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
+import java.sql.Array;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Sender {
-    private static  String password;//Password google account associata all'app
-    private static String emailString = "";//Stringa delle email lette dal file, sono tutte separate da virgola
-    public static List<File> attachFile = new ArrayList<>();//Lista degli allegati
+    /** TODO Controllo correttezza file email.txt (ogni stringa separata da virgola deve essere nel formato email)
+     *  TODO Controllo correttezza dei campi nel formato email sia to che from
+     */
+    private static  String password;// Password google account associata all'app
+    private static String emailString = "";// Stringa delle email lette dal file, sono tutte separate da virgola
+    public static List<File> attachFile = new ArrayList<>();// Lista degli allegati
+    private static String mailStatus;
 
     public static void setEmailList(File fileMail){
-
+        /**
+         * Metodo che scansiona il file txt contenente le email separate da virgola
+         */
         try {
             Scanner scanner = new Scanner(fileMail);
             while (scanner.hasNext()){
                 emailString = emailString.concat(scanner.nextLine());
             }
+            emailString = emailString.concat(",");
+            SenderUI.senderUIInstance.setToText(emailString);
+
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+    private static boolean checkEmailFormat (String stringEmailList){
+        String[] listaEmail;
+        if (stringEmailList.contains(",")) {
+            listaEmail = stringEmailList.split(",");
+            System.out.println(Arrays.toString(listaEmail));
+        }else {
+            listaEmail = new String[1];
+            listaEmail[0] = stringEmailList;
+        }
+        for (String email : listaEmail) {
+            if (email.matches("^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$")) {
+                //System.out.println(email);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void send(String from, String to, String cc, String objectEamil, String corpoMessaggio){
+        /**
+         *
+         */
+        try {
+            ArrayList<Boolean> formatoEmailValido = new ArrayList<>();
+            if (!emailString.isEmpty()){
+                formatoEmailValido.add(checkEmailFormat(emailString));
+            }
+            if (!from.isEmpty()){
+                formatoEmailValido.add(checkEmailFormat(from));
+            }
+            if (!to.isEmpty() && emailString.isEmpty()){
+                formatoEmailValido.add(checkEmailFormat(to));
+            }
+            if (!cc.isEmpty()){
+                formatoEmailValido.add(checkEmailFormat(cc));
+            }
+            //System.out.println(Arrays.toString(formatoEmailValido.toArray()));
+            if (formatoEmailValido.contains(false) || from.contains(",")) {
+                throw new EmailFormatError();
+                }
+        }catch (EmailFormatError emailErr){
+            return;
+            }
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         // Assuming you are sending email from through gmails smtp
         String host = "smtp.gmail.com";
@@ -44,18 +96,14 @@ public class Sender {
         properties.put("mail.smtp.ssl.enable", "true");
         properties.put("mail.smtp.auth", "true");
 
-        // Get the Session object.// and pass username and password
+        // Istanziazione di un oggetto di tipo sessione passando username e password
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
-
             protected PasswordAuthentication getPasswordAuthentication() {
-
                 return new PasswordAuthentication(from, password);
-
             }
-
         });
 
-        // Used to debug SMTP issues
+        // setto il debug su true così da poter vedere eventuali errori
         session.setDebug(true);
 
         try {
@@ -67,19 +115,23 @@ public class Sender {
 
             // Set From: header field of the header.
             message.setFrom(new InternetAddress(from));
+            // Controllo formato email
 
             if (!emailString.isEmpty()){
                 InternetAddress[] address = InternetAddress.parse(emailString);
                 message.addRecipients(Message.RecipientType.TO, address );
-                System.out.println(Arrays.toString(address));
             }else {
                 // Set To: header field of the header.
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+                if (to.contains(",")){
+                    InternetAddress[] address = InternetAddress.parse(to);
+                    message.addRecipients(Message.RecipientType.TO, address );
+                }else {
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+                }
             }
             if (!cc.isEmpty()){
                 InternetAddress[] ccAddress = InternetAddress.parse(cc);
                 message.addRecipients(Message.RecipientType.CC, ccAddress);
-                System.out.println(Arrays.toString(ccAddress));
             }
 
             // Set Subject: header field
@@ -99,22 +151,25 @@ public class Sender {
                     messaggeAttachment.setDataHandler(new DataHandler(new FileDataSource(file)));
                     messaggeAttachment.setFileName(file.getName());
                     multipartMessagge.addBodyPart(messaggeAttachment);
-                    //attachPart.add(messaggeAttachment);
-                    //messaggeAttachment.attachFile(file);
-                    //multipartMessagge.addBodyPart(messaggeAttachment);
                 }
             }
+
             //Aggiungo il MimeMultipart al MimeMessage
             message.setContent(multipartMessagge);
-            System.out.println("sending...");
-            // Send message
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
-            int answer = JOptionPane.showConfirmDialog(null,"Voui ripulire i campi ed il corpo della email?");
-            if (answer == 0){
-                reset();
-            }
 
+            //MultiThreading, un processo gestisce la progressBar ed un processo l'invio della mail
+            executorService.execute(() -> progressBarFill(30));
+            executorService.execute(() -> {
+                try {
+                    Transport.send(message);
+                    mailStatus = "sent";
+                    reset();
+                    executorService.shutdown();
+                } catch (MessagingException e) {
+                    mailStatus = "not sent";
+                    throw new RuntimeException(e);
+                }
+            });
         }catch (AuthenticationFailedException authEx){
             JOptionPane.showMessageDialog(null,"Password o Username Errati");
         }catch (AddressException addressEx){
@@ -122,20 +177,33 @@ public class Sender {
         } catch (MessagingException mex) {
             mex.printStackTrace();
         }
-        /*catch (IOException e) {
-            JOptionPane.showMessageDialog(null,"Errore Allegato");
-        }
-         */
     }
-
     public static void setPassword(String password) {
         Sender.password = password;
     }
-
     private static void reset(){
-        SenderUI.senderUIInstance.reset();
-        emailString = "";
+        int answer = JOptionPane.showConfirmDialog(null,"Voui ripulire i campi ed il corpo della email?");
+        if (answer == 0){
+            SenderUI.senderUIInstance.reset();
+            SenderUI.senderUIInstance.setToFocusable(true);
+            emailString = "";
+        }
     }
+    public static void progressBarFill(int percenuale){
+        int i = percenuale;
+        while (i < 100){
+            i += i;
+            if (i > 100){
+                i = 100;
+            }
+            try {
+                SenderUI.senderUIInstance.setFillBar(i);
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
+    }
 }
 

@@ -2,7 +2,6 @@ package clientemail.view;
 
 import clientemail.send.Sender;
 import clientemail.utils.PathSelector;
-
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +24,8 @@ public class SenderUI {
     private JLabel labelAllegati;
     private JTextPane attachText;
     private JButton loadConfigButton;
+    private JProgressBar sendProgressBar;
+    private JLabel barLabel;
     public static SenderUI senderUIInstance;
 
     public JPanel getPanelSender() {
@@ -67,24 +68,22 @@ public class SenderUI {
          * Permette la selezione del file da allegare tramite PathSelector.getFileSrc(), se la lista publicca della
          * classe Sender attachFile non contiene quel file, lo aggiunge
          */
-        //TODO Creare una barra di caricamento, che visualizzi il tempo per l'invio delle email.
-        System.out.println("Invio......");
+        // TODO Creare una barra di caricamento, che visualizzi il tempo per l'invio delle email.
         sendButton.addActionListener(e -> {
             Sender.send(from.getText(), to.getText(), cc.getText(), objectEmail.getText(), corpoMessaggio.getText());
-            System.out.println("InvioButton......");
-
+            Sender.attachFile.clear();
         });
         emailFileButton.addActionListener(e -> {
             try {
                 File file = PathSelector.getFileSrc();
                 Sender.setEmailList(file);
-                to.setEnabled(false);
+                setToFocusable(false);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         });
         allegaButton.addActionListener(e-> {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();// DA modificare, quanti oggetti inutili istanzio??
             try {
                 File file = PathSelector.getFileSrc();
                 if (!Sender.attachFile.contains(file)) {
@@ -118,7 +117,6 @@ public class SenderUI {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
     public void reset(){
         /**
@@ -130,6 +128,19 @@ public class SenderUI {
         objectEmail.setText("");
         corpoMessaggio.setText("");
         attachText.setText("");
+        sendProgressBar.setValue(0);
+    }
+    public void setToFocusable(boolean bool){
+        to.setEnabled(bool);
+    }
+    public void setSendProgressBar(boolean bool){
+        sendProgressBar.setVisible(bool);
+    }
+    public void setFillBar(int fill){
+        sendProgressBar.setValue(fill);
+    }
+    public void setToText(String emailToList){
+        to.setText(emailToList);
     }
 
 }

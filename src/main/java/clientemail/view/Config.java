@@ -1,13 +1,10 @@
 package clientemail.view;
 
-import clientemail.send.Sender;
 import clientemail.utils.PathSelector;
-
 import javax.swing.*;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
 
 public class Config {
     private File configFile;
@@ -73,7 +70,8 @@ public class Config {
     private  void initComponent(){
         congiButton.addActionListener(e -> {
             setConfig();
-            JOptionPane.showMessageDialog(null, "File di configurazione creato con successo");            PanelManage.loadSendPanel(e, new Config());
+            JOptionPane.showMessageDialog(null, "File di configurazione creato con successo");
+            PanelManage.loadSendPanel(e, new Config());
         });
     }
 

@@ -7,7 +7,6 @@ public class PathSelector {
     /**
      *Classe per la gestione di file e directory
      */
-
     public static File getFileSrc() throws Exception {
         /**
          * Apre un JFileChooser per la selezione di un file, lancia un eccezione in caso di file null
@@ -21,13 +20,12 @@ public class PathSelector {
         }
         return file;
     }
-    /*
+
     public static String getPathDst() throws Exception{
         JFileChooser jFchooser = new JFileChooser();
         jFchooser.showOpenDialog(null);
         return jFchooser.getSelectedFile().getAbsolutePath();
     }
-    */
 
     public static String getPath() throws Exception {
         JFileChooser jFchooser = new JFileChooser();
