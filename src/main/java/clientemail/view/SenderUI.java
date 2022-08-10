@@ -118,23 +118,44 @@ public class SenderUI {
             throw new RuntimeException(e);
         }
     }
-    public void reset(){
+    public boolean reset(){
         /**
          * Metodo che si occupa della pulizia dei campi UI dopo l'inoltro delle email
          */
-        from.setText("");
-        to.setText("");
-        cc.setText("");
-        objectEmail.setText("");
-        corpoMessaggio.setText("");
-        attachText.setText("");
-        sendProgressBar.setValue(0);
+        int answer = JOptionPane.showConfirmDialog(null,"Voui ripulire i campi ed il corpo della email?");
+        if (answer == 0) {
+            from.setText("");
+            to.setText("");
+            cc.setText("");
+            objectEmail.setText("");
+            corpoMessaggio.setText("");
+            attachText.setText("");
+            sendProgressBar.setValue(0);
+            SenderUI.senderUIInstance.setToFocusable(true);
+            return true;
+        }
+        return false;
     }
     public void setToFocusable(boolean bool){
         to.setEnabled(bool);
     }
     public void setSendProgressBar(boolean bool){
         sendProgressBar.setVisible(bool);
+    }
+    public static void progressBarFill(int percenuale){
+        int i = percenuale;
+        while (i < 100){
+            i += i;
+            if (i > 100){
+                i = 100;
+            }
+            try {
+                senderUIInstance.setFillBar(i);
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
     public void setFillBar(int fill){
         sendProgressBar.setValue(fill);
