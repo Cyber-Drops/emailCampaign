@@ -2,6 +2,7 @@ package clientemail.send;
 
 import clientemail.exception.EmailFormatError;
 import clientemail.utils.EmailConstructor;
+import clientemail.utils.Log;
 import clientemail.view.SenderUI;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -9,8 +10,6 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.swing.*;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.sql.Array;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,7 +26,7 @@ public class Sender {
     private static  String password;// Password google account associata all'app
     private static String emailString = "";// Stringa delle email lette dal file, sono tutte separate da virgola
     public static List<File> attachFile = new ArrayList<>();// Lista degli allegati
-    private static String mailStatus;
+    public static String mailStatus;
 
     public static void setEmailList(File fileMail){
         emailString = EmailConstructor.setEmailList(fileMail, emailString);
@@ -135,16 +134,24 @@ public class Sender {
         //MultiThreading, un processo gestisce la progressBar ed un processo l'invio della mail
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-        executorService.execute(() -> SenderUI.progressBarFill(20));
         executorService.execute(() -> {
             try {
+                executorService.execute(() -> SenderUI.progressBarFill(5, true));
                 Transport.send(message);
                 mailStatus = "sent";
                 reset();
                 executorService.shutdown();
-            } catch (MessagingException e) {
+            } catch (AuthenticationFailedException authFail){
+                executorService.execute(() -> SenderUI.progressBarFill(20, false));
+                executorService.shutdown();
+                JOptionPane.showMessageDialog(null, "Autenticazione Fallita, controlla email from o password");
+            }catch (MessagingException e) {
                 mailStatus = "not sent";
-                throw new RuntimeException(e);
+                if (0 == JOptionPane.showConfirmDialog(null, "Errore sconosciuto, contatta l'amministratore, invio Errore all'amministratore?")){
+                    Log.sendLogEmail(e.getStackTrace(), e.getMessage());
+                }
+
+                System.exit(1);
             }
         });
 

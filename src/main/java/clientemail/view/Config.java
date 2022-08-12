@@ -16,7 +16,7 @@ public class Config {
     private JLabel configEmailLabel;
     private JLabel ConfigEmailPasswLabel;
     private JButton congiButton;
-    private Config instanceConfig;
+    private static Config instanceConfig;
 
     {
         initComponent();
@@ -30,7 +30,8 @@ public class Config {
             List<File> listaFile = (Arrays.stream(pathWork.listFiles())).toList();
             for (File file : listaFile) {
                 if (file.getName().endsWith(".conf")){
-                    setConfig();
+                    //setConfig();
+                    setConfigFile();
                     return true;
                 }
             }
@@ -39,9 +40,12 @@ public class Config {
             throw new RuntimeException(e);
         }
     }
+    public static void setInstanceConfig(){
+        instanceConfig = new Config();
+    }
 
-    public void setInstanceConfig(Config config){
-        this.instanceConfig = config;
+    public static Config getInstanceConfig(){
+        return instanceConfig;
     }
 
     public void setConfig() {
@@ -59,8 +63,7 @@ public class Config {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(System.getProperty("user.dir").concat(System.getProperty("file.separator").concat("config.conf")));
-        this.configFile = new File(System.getProperty("user.dir").concat(System.getProperty("file.separator").concat("config.conf")));
+        return;
     }
 
     public File getConfig() {
@@ -71,12 +74,15 @@ public class Config {
         congiButton.addActionListener(e -> {
             setConfig();
             JOptionPane.showMessageDialog(null, "File di configurazione creato con successo");
-            PanelManage.loadSendPanel(e, new Config());
+            PanelManage.loadSendPanel(e);
         });
     }
 
     public JPanel getConfigPanel() {
         return configPanel;
+    }
+    public void setConfigFile(){
+        this.configFile = new File(System.getProperty("user.dir").concat(System.getProperty("file.separator").concat("config.conf")));
     }
 
 

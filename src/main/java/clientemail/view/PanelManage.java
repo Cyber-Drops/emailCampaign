@@ -7,10 +7,14 @@ import java.awt.event.ActionEvent;
 public class PanelManage {
     private static JFrame mainFrame = new JFrame("Client Email");
     private static SenderUI senderUI = new SenderUI(); //Istanzio la classe grafica per l'invio email;
-    private static Config configUI = new Config();
+    private static Config configUI;
+
+    private static HelpUI helpUI = new HelpUI();
+
 
     public static void startUI(){
-        configUI.setInstanceConfig(configUI);
+        Config.setInstanceConfig();
+        configUI = Config.getInstanceConfig();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLocation(300,100);
@@ -19,11 +23,12 @@ public class PanelManage {
             mainFrame.setVisible(true);
             senderUI.sendEmail(senderUI, configUI);//chiamo il metodo d'istanza sendEmail e gli passo l'istanza della classe SenderUI
         }
+
     }
 
-    public static void loadSendPanel(ActionEvent event, Config configUI){
-        SenderUI senderUI = new SenderUI(); //Istanzio la classe grafica per l'invio email
-        senderUI.sendEmail(senderUI, configUI);//chiamo il metodo d'istanza sendEmail e gli passo l'istanza della classe SenderUI
+    public static void loadSendPanel(ActionEvent event){
+        //SenderUI senderUI = new SenderUI(); //Istanzio la classe grafica per l'invio email
+        //senderUI.sendEmail(senderUI, configUI);//chiamo il metodo d'istanza sendEmail e gli passo l'istanza della classe SenderUI
         Container container = ((JButton) event.getSource()).getParent();
         while (!(container instanceof JFrame)){
             container = container.getParent();
@@ -35,10 +40,25 @@ public class PanelManage {
     public static boolean loadConfigPanel(){
         if (!configUI.isConfig()){
             mainFrame.setContentPane(configUI.getConfigPanel());
+            configUI.setConfigFile();
         }else {
             mainFrame.setContentPane(senderUI.getPanelSender()); // //richiamo il pannello per invio email
         }
         return true;
     }
 
+    public static void loadHelpPanel(ActionEvent event){
+        Container container = ((JButton) event.getSource()).getParent();
+        while (!(container instanceof JFrame)){
+            container = container.getParent();
+        }
+        ((JFrame) container).setContentPane(helpUI.getHelpPanel());
+        container.revalidate();
+    }
+
+
+
+    public static Config getConfigUI() {
+        return configUI;
+    }
 }

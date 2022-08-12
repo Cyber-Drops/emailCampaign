@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class SenderUI {
@@ -27,6 +26,7 @@ public class SenderUI {
     private JButton loadConfigButton;
     private JProgressBar sendProgressBar;
     private JLabel barLabel;
+    private JButton helpButton;
     public static SenderUI senderUIInstance;
 
     public JPanel getPanelSender() {
@@ -54,10 +54,10 @@ public class SenderUI {
             labelIcon.setIcon(new ImageIcon(logoPng));
             labelIconTesta.setIcon(new ImageIcon(testaJpg));
         }
-
-        initComponent(configUI);
+        initComponent();
     }
-    private  void initComponent(Config configUI){
+    private  void initComponent(){
+        Config configUI = Config.getInstanceConfig();
         /**
          * Gestito evento pressione sul:
          * 1) sendButton, il quale chiama il metodo statico send della classe Sender, passandogli le Stringhe prelevate
@@ -69,7 +69,6 @@ public class SenderUI {
          * Permette la selezione del file da allegare tramite PathSelector.getFileSrc(), se la lista publicca della
          * classe Sender attachFile non contiene quel file, lo aggiunge
          */
-        // TODO Creare una barra di caricamento, che visualizzi il tempo per l'invio delle email.
         sendButton.addActionListener(e -> {
             Sender.send(from.getText(), to.getText(), cc.getText(), objectEmail.getText(), corpoMessaggio.getText());
         });
@@ -100,13 +99,13 @@ public class SenderUI {
         loadConfigButton.addActionListener(e->{
             settaConfigurazione(configUI);
         });
+
+        helpButton.addActionListener(PanelManage::loadHelpPanel);
     }
 
     private void settaConfigurazione(Config configUI){
-        configUI.setConfig();
         String parametri = "";
         try {
-            System.out.println(configUI.getConfig());
             Scanner scanner = new Scanner(configUI.getConfig());
             while (scanner.hasNext()) {
                 parametri = scanner.nextLine();
@@ -114,6 +113,7 @@ public class SenderUI {
             String[] parametriArray = parametri.split(",");
             from.setText(parametriArray[0]);
             Sender.setPassword(parametriArray[1]);
+            loadConfigButton.setEnabled(false);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -122,7 +122,7 @@ public class SenderUI {
         /**
          * Metodo che si occupa della pulizia dei campi UI dopo l'inoltro delle email
          */
-        int answer = JOptionPane.showConfirmDialog(null,"Voui ripulire i campi ed il corpo della email?");
+        int answer = JOptionPane.showConfirmDialog(null,"Email Inviata!\nRipulire i campi ed il corpo della email?");
         if (answer == 0) {
             from.setText("");
             to.setText("");
@@ -140,22 +140,23 @@ public class SenderUI {
     public void setToFocusable(boolean bool){
         to.setEnabled(bool);
     }
-    public void setSendProgressBar(boolean bool){
-        sendProgressBar.setVisible(bool);
-    }
-    public static void progressBarFill(int percenuale){
-        int i = percenuale;
-        while (i < 100){
-            i += i;
-            if (i > 100){
-                i = 100;
+    public static void progressBarFill(int percenuale, boolean inProgress) {
+        if (inProgress) {
+            int i = percenuale;
+            while (i < 100) {
+                i += 10;
+                if (i > 100) {
+                    i = 100;
+                }
+                try {
+                    senderUIInstance.setFillBar(i);
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
-            try {
-                senderUIInstance.setFillBar(i);
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        }else {
+            senderUIInstance.setFillBar(percenuale);
         }
     }
     public void setFillBar(int fill){
