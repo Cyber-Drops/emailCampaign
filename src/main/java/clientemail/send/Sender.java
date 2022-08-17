@@ -4,35 +4,44 @@ import clientemail.exception.EmailFormatError;
 import clientemail.utils.EmailConstructor;
 import clientemail.utils.Log;
 import clientemail.view.SenderUI;
+import com.sun.mail.smtp.SMTPSenderFailedException;
+
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.swing.*;
 import java.io.File;
+import java.sql.Struct;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Sender {
     /**
-     *
-     *  TODO Elimina ogni fonte di output indesiderata tipo debug e system.out.println
-     *  TODO Pulsante di help con usage ed link di riferimento al blog cyber-drops dove carico il tool
      *  TODO Parsing di un file json per comporre: object email, corpo email ed allegati(allegato:percorso)
      *  TODO Nel file.conf (di configurazione) aggiungere le proprietà del email server (es. smtp.gmail.com.....)
      *
      */
-    private static  String password;// Password google account associata all'app
+    private static  String passwordEmail;// Password google account associata all'app
+    private static String usernameEmail;
     private static String emailString = "";// Stringa delle email lette dal file, sono tutte separate da virgola
     public static List<File> attachFile = new ArrayList<>();// Lista degli allegati
     public static String mailStatus;
+
+    public static String getEmailString() {
+        return emailString;
+    }
+
+    public static String getPassword() {
+        return passwordEmail;
+    }
 
     public static void setEmailList(File fileMail){
         emailString = EmailConstructor.setEmailList(fileMail, emailString);
     }
 
-    private static Session createSession(String from){
+    public static Session createSession(String from){
         // Imposto i parametri del server email, poi in file.conf
         String host = "smtp.gmail.com";
 
@@ -48,24 +57,23 @@ public class Sender {
         // Istanziazione di un oggetto di tipo sessione passando username e password
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(from, password);
+                return new PasswordAuthentication(from, passwordEmail);
             }
         });
 
         // setto il debug su true così da poter vedere eventuali errori
-        session.setDebug(true);
+        //session.setDebug(true);
         return session;
     }
 
-    private static MimeMessage componiMessaggio(Session session, String from, String to, String cc, String objectEamil, String corpoMessaggio) {
+    public static MimeMessage componiMessaggio(Session session, String from, String to, String cc, String objectEamil, String corpoMessaggio) {
         // Create a default MimeMessage object. Con i dettagli come from, to e oggetto.
         MimeMessage message = new MimeMessage(session);
         try {
             // Creo un oggetto MimeBodyPart con il corpo della mail
             MimeBodyPart messaggeBody = new MimeBodyPart();
-            // Creo un oggetto MimeBodyPart per l'allegato
 
-            // Set From: header field of the header.
+            // Setto il campo header con l'email From
             message.setFrom(new InternetAddress(from));
             // Controllo formato email
 
@@ -86,10 +94,10 @@ public class Sender {
                 message.addRecipients(Message.RecipientType.CC, ccAddress);
             }
 
-            // Set Subject: header field
+            // Imposto il campo oggetto dell' header
             message.setSubject(objectEamil);
 
-            // Now set the actual message
+            // Imposto il corpo del messaggio
             messaggeBody.setText(corpoMessaggio);
             //Creo oggetto MimeMultipart per includere tutti i Mimepart
             Multipart multipartMessagge = new MimeMultipart();
@@ -99,6 +107,7 @@ public class Sender {
                 System.out.println(Arrays.toString(attachFile.toArray()));
                 for (File file : attachFile) {
                     System.out.println(file.getName());
+                    // Creo un oggetto MimeBodyPart per l'allegato
                     MimeBodyPart messaggeAttachment = new MimeBodyPart();
                     messaggeAttachment.setDataHandler(new DataHandler(new FileDataSource(file)));
                     messaggeAttachment.setFileName(file.getName());
@@ -107,6 +116,7 @@ public class Sender {
             }
             //Aggiungo il MimeMultipart al MimeMessage
             message.setContent(multipartMessagge);
+
         } catch (AuthenticationFailedException authEx) {
             JOptionPane.showMessageDialog(null, "Password o Username Errati");
         } catch (AddressException addressEx) {
@@ -127,7 +137,6 @@ public class Sender {
         MimeMessage message = componiMessaggio(session, from, to, cc, objectEamil, corpoMessaggio);
         try {
             EmailConstructor.checkEmail(from,to,cc,emailString);
-
         } catch (EmailFormatError e) {
             return;
         }
@@ -136,7 +145,7 @@ public class Sender {
 
         executorService.execute(() -> {
             try {
-                executorService.execute(() -> SenderUI.progressBarFill(5, true));
+                executorService.execute(() -> SenderUI.progressBarFill(15, true));
                 Transport.send(message);
                 mailStatus = "sent";
                 reset();
@@ -145,10 +154,19 @@ public class Sender {
                 executorService.execute(() -> SenderUI.progressBarFill(20, false));
                 executorService.shutdown();
                 JOptionPane.showMessageDialog(null, "Autenticazione Fallita, controlla email from o password");
+            }catch (SMTPSenderFailedException senderFailedException){
+                JOptionPane.showMessageDialog(null, senderFailedException.getMessage());
             }catch (MessagingException e) {
+                if (e.getMessage().contains("Your message exceeded Google's message size limits")) {
+                    JOptionPane.showMessageDialog(null,e.getMessage().substring(10,60).concat(System.lineSeparator().concat("Usa Google Drive ed Invia il Link")));
+                }
                 mailStatus = "not sent";
-                if (0 == JOptionPane.showConfirmDialog(null, "Errore sconosciuto, contatta l'amministratore, invio Errore all'amministratore?")){
-                    Log.sendLogEmail(e.getStackTrace(), e.getMessage());
+                int answer = JOptionPane.showConfirmDialog(null, "Errore sconosciuto, invio Errore all'amministratore?\n" +
+                        "SI acconsenti all' invio con la tua email un messaggio dell'errore all'amministratore con conseguente invio del tuo " +
+                        "indirizzo email, NO non verrà inviato nulla.");
+                if (0 == answer ){
+                    attachFile.clear();
+                    Log.sendLogEmail(e.getStackTrace(), e.getMessage(), answer);
                 }
 
                 System.exit(1);
@@ -157,8 +175,16 @@ public class Sender {
 
     }
     public static void setPassword(String password) {
-        Sender.password = password;
+        passwordEmail = password;
     }
+    public static void setUsername(String username){
+        usernameEmail = username;
+    }
+
+    public static String getUsernameEmail() {
+        return usernameEmail;
+    }
+
     private static void reset(){
             if (SenderUI.senderUIInstance.reset()){
                 emailString = "";

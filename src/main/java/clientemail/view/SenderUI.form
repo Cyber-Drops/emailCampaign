@@ -237,12 +237,12 @@
               <text value="Bar"/>
             </properties>
           </component>
-          <component id="722a8" class="javax.swing.JLabel">
+          <component id="722a8" class="javax.swing.JLabel" binding="linkCDlabel">
             <constraints>
               <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <font name="Courier New" size="10" style="3"/>
+              <font name="Courier New" size="12" style="3"/>
               <foreground color="-4777728"/>
               <text value="www.cyber-drops.com"/>
             </properties>

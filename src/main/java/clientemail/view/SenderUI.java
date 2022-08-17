@@ -1,10 +1,17 @@
 package clientemail.view;
 
+import clientemail.exception.FileConfigException;
 import clientemail.send.Sender;
 import clientemail.utils.PathSelector;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -27,11 +34,13 @@ public class SenderUI {
     private JProgressBar sendProgressBar;
     private JLabel barLabel;
     private JButton helpButton;
+    private JLabel linkCDlabel;
     public static SenderUI senderUIInstance;
 
     public JPanel getPanelSender() {
         return panelSender;
     }
+
 
     public SenderUI() {} //Blocco il costruttore di default
     public  void sendEmail(SenderUI senderUI, Config configUI){
@@ -100,10 +109,40 @@ public class SenderUI {
             settaConfigurazione(configUI);
         });
 
-        helpButton.addActionListener(PanelManage::loadHelpPanel);
+        helpButton.addActionListener(e->{
+            PanelManage.loadHelpPanel(e);
+            HelpUI.getHelpInstace().componiHelpmenu();
+        });
+        linkCDlabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://www.cyber-drops.com"));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (URISyntaxException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                linkCDlabel.setText("<html><a href=''>www.cyber-drops.com</a></html>www.cyber-drops.com");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                linkCDlabel.setText("www.cyber-drops.com");
+            }
+        });
+
     }
 
     private void settaConfigurazione(Config configUI){
+        /**
+         * Esegue il setting dell'applicazione tramite i dati letti nel file config.conf
+         * @paranm Oggetto di tipo Config, istanza
+         */
         String parametri = "";
         try {
             Scanner scanner = new Scanner(configUI.getConfig());
@@ -111,11 +150,14 @@ public class SenderUI {
                 parametri = scanner.nextLine();
             }
             String[] parametriArray = parametri.split(",");
-            from.setText(parametriArray[0]);
-            Sender.setPassword(parametriArray[1]);
+            from.setText(parametriArray[0]);// scrive nella SenderUI username, visualizzato dall'utente
+            Sender.setUsername(parametriArray[0]);
+            Sender.setPassword(parametriArray[1]);// setta la password in Sender, per l'invio
             loadConfigButton.setEnabled(false);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (FileNotFoundException FileE) {
+            JOptionPane.showMessageDialog(null, "File config.conf non presente");
+        } catch (FileConfigException FileConfE){
+            return;
         }
     }
     public boolean reset(){
@@ -133,6 +175,8 @@ public class SenderUI {
             Sender.attachFile.clear();
             sendProgressBar.setValue(0);
             SenderUI.senderUIInstance.setToFocusable(true);
+            SenderUI.senderUIInstance.loadConfigButton.setEnabled(true);
+            setFillBar(0);
             return true;
         }
         return false;
@@ -151,6 +195,9 @@ public class SenderUI {
                 try {
                     senderUIInstance.setFillBar(i);
                     Thread.sleep(1500);
+                    if (i == 100){
+                        senderUIInstance.setFillBar(0);
+                    }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -166,4 +213,7 @@ public class SenderUI {
         to.setText(emailToList);
     }
 
+    public JTextField getFrom() {
+        return from;
+    }
 }

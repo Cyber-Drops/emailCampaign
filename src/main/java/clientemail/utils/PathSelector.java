@@ -33,7 +33,7 @@ public class PathSelector {
         jFchooser.showOpenDialog(null);
         return jFchooser.getSelectedFile().getAbsolutePath();
     }
-    public static String getPathWork() throws Exception {
+    public static String getPathWork() {
         JFileChooser jFchooser = new JFileChooser(System.getProperty("user.dir"));
         jFchooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         jFchooser.showOpenDialog(null);

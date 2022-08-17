@@ -9,12 +9,14 @@ public class PanelManage {
     private static SenderUI senderUI = new SenderUI(); //Istanzio la classe grafica per l'invio email;
     private static Config configUI;
 
-    private static HelpUI helpUI = new HelpUI();
+    private static HelpUI helpUI;
 
 
     public static void startUI(){
         Config.setInstanceConfig();
         configUI = Config.getInstanceConfig();
+        HelpUI.setHelpInstace();
+        helpUI = HelpUI.getHelpInstace();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLocation(300,100);
@@ -27,8 +29,6 @@ public class PanelManage {
     }
 
     public static void loadSendPanel(ActionEvent event){
-        //SenderUI senderUI = new SenderUI(); //Istanzio la classe grafica per l'invio email
-        //senderUI.sendEmail(senderUI, configUI);//chiamo il metodo d'istanza sendEmail e gli passo l'istanza della classe SenderUI
         Container container = ((JButton) event.getSource()).getParent();
         while (!(container instanceof JFrame)){
             container = container.getParent();
@@ -48,6 +48,7 @@ public class PanelManage {
     }
 
     public static void loadHelpPanel(ActionEvent event){
+
         Container container = ((JButton) event.getSource()).getParent();
         while (!(container instanceof JFrame)){
             container = container.getParent();
@@ -56,9 +57,4 @@ public class PanelManage {
         container.revalidate();
     }
 
-
-
-    public static Config getConfigUI() {
-        return configUI;
-    }
 }
