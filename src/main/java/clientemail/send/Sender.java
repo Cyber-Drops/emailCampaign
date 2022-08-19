@@ -75,8 +75,8 @@ public class Sender {
 
             // Setto il campo header con l'email From
             message.setFrom(new InternetAddress(from));
-
-            message.setHeader("Disposition-Notification-TO:","email per ricevuta");
+            //Conferma ricezione Email
+            //message.setHeader("Disposition-Notification-TO:","email per ricevuta");
 
             // Controllo formato email
             if (!emailString.isEmpty()) {
@@ -147,7 +147,7 @@ public class Sender {
 
         executorService.execute(() -> {
             try {
-                executorService.execute(() -> SenderUI.progressBarFill(15, true));
+                executorService.execute(() -> SenderUI.progressBarFill(20, true));
                 Transport.send(message);
                 mailStatus = "sent";
                 reset();
