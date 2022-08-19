@@ -48,7 +48,6 @@ public class PanelManage {
     }
 
     public static void loadHelpPanel(ActionEvent event){
-
         Container container = ((JButton) event.getSource()).getParent();
         while (!(container instanceof JFrame)){
             container = container.getParent();

@@ -2,6 +2,7 @@ package clientemail.view;
 
 import clientemail.exception.FileConfigException;
 import clientemail.send.Sender;
+import clientemail.utils.ManagerAllegati;
 import clientemail.utils.PathSelector;
 import javax.swing.*;
 import java.awt.*;
@@ -35,6 +36,9 @@ public class SenderUI {
     private JLabel barLabel;
     private JButton helpButton;
     private JLabel linkCDlabel;
+    private JButton rmAllegatiButton;
+    private JCheckBox ricConfermaCheckBox;
+    private JButton salvaCaricaMsgButton;
     public static SenderUI senderUIInstance;
 
     public JPanel getPanelSender() {
@@ -85,12 +89,14 @@ public class SenderUI {
             try {
                 File file = PathSelector.getFileSrc();
                 Sender.setEmailList(file);
-                setToFocusable(false);
+                //setToFocusable(false);
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         });
         allegaButton.addActionListener(e-> {
+            ManagerAllegati.aggiungiAllegato(attachText);
+/*
             StringBuilder stringBuilder = new StringBuilder();// DA modificare, quanti oggetti inutili istanzio??
             try {
                 File file = PathSelector.getFileSrc();
@@ -104,6 +110,11 @@ public class SenderUI {
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
+
+ */
+        });
+        rmAllegatiButton.addActionListener(e->{
+            ManagerAllegati.rimuoviAllegato(attachText);
         });
         loadConfigButton.addActionListener(e->{
             settaConfigurazione(configUI);
@@ -145,6 +156,7 @@ public class SenderUI {
          */
         String parametri = "";
         try {
+            System.out.println("ok"+configUI.getConfig().isFile());
             Scanner scanner = new Scanner(configUI.getConfig());
             while (scanner.hasNext()) {
                 parametri = scanner.nextLine();
@@ -215,5 +227,9 @@ public class SenderUI {
 
     public JTextField getFrom() {
         return from;
+    }
+
+    public JTextPane getAttachText() {
+        return attachText;
     }
 }

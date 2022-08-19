@@ -75,8 +75,10 @@ public class Sender {
 
             // Setto il campo header con l'email From
             message.setFrom(new InternetAddress(from));
-            // Controllo formato email
 
+            message.setHeader("Disposition-Notification-TO:","email per ricevuta");
+
+            // Controllo formato email
             if (!emailString.isEmpty()) {
                 InternetAddress[] address = InternetAddress.parse(emailString);
                 message.addRecipients(Message.RecipientType.TO, address);

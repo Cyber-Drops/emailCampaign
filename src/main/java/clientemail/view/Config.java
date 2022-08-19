@@ -18,6 +18,7 @@ public class Config {
     private JLabel ConfigEmailPasswLabel;
     private JButton congiButton;
     private static Config instanceConfig;
+    private File pathWork;
 
     {
         initComponent();//Inizializzo i componenti della UI tramite un inizializzatore di instanza
@@ -31,7 +32,7 @@ public class Config {
          * @retutn true se esiste il file config.conf, flase altrimenti
          */
             JOptionPane.showMessageDialog(null,"Carica o crea file di configurazione.");
-            File pathWork = new File(PathSelector.getPathWork());
+            pathWork = new File(PathSelector.getPathWork());
             List<File> listaFile = (Arrays.stream(pathWork.listFiles())).toList();
             for (File file : listaFile) {
                 if (file.getName().endsWith(".conf")){
@@ -72,7 +73,7 @@ public class Config {
             passwordString.append(ch);
         }
         try {
-            FileWriter fileWriter = new FileWriter(System.getProperty("user.dir").concat(System.getProperty("file.separator").concat("config.conf")),true);
+            FileWriter fileWriter = new FileWriter(pathWork.getAbsolutePath().concat(System.getProperty("file.separator").concat("config.conf")),true);
             fileWriter.write(email.concat(",").concat(passwordString.toString()));
             fileWriter.flush();
             fileWriter.close();
@@ -112,7 +113,7 @@ public class Config {
         /**
          * Metodo per il setting dell'attributo configFile, oggetto di tipo File (config.conf)
          */
-        this.configFile = new File(System.getProperty("user.dir").concat(System.getProperty("file.separator").concat("config.conf")));
+        this.configFile = new File(pathWork.getAbsolutePath().concat(System.getProperty("file.separator").concat("config.conf")));
     }
 
 
