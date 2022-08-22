@@ -1,7 +1,7 @@
 package clientemail.utils;
 
 import clientemail.send.Sender;
-
+import clientemail.view.SenderUI;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -24,6 +24,26 @@ public class ManagerAllegati {
             throw new RuntimeException(ex);
         }
     }
+
+    public static void caricaAllegati(String listaAllegati) {
+        StringBuilder stringBuilder = new StringBuilder();// DA modificare, quanti oggetti inutili istanzio??
+        String[] allegatiArray = listaAllegati.split(",");
+        try {
+            for (String f : allegatiArray) {
+                File file = new File(f);
+                if (!Sender.attachFile.contains(f)) {
+                    Sender.attachFile.add(file);
+                }
+                for (File file_name : Sender.attachFile) {
+                    stringBuilder.append(file_name.getName().concat("\n"));
+                    SenderUI.senderUIInstance.getAttachText().setText(stringBuilder.toString());
+                }
+            }
+        }catch(Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
 
     public static void rimuoviAllegato(JTextPane attachText){
         if (!nomiAllegati.contains("Annulla")) {

@@ -3,6 +3,7 @@ package clientemail.view;
 import clientemail.exception.FileConfigException;
 import clientemail.send.Sender;
 import clientemail.utils.ManagerAllegati;
+import clientemail.utils.MsgManager;
 import clientemail.utils.PathSelector;
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +23,7 @@ public class SenderUI {
     private JTextField to;
     private JTextField cc;
     private JTextField objectEmail;
-    private JTextArea corpoMessaggio;
+    private JTextPane corpoMessaggio;
     private  JButton sendButton;
     private JPanel panelSender;
     private JButton emailFileButton;
@@ -39,6 +40,7 @@ public class SenderUI {
     private JButton rmAllegatiButton;
     private JCheckBox ricConfermaCheckBox;
     private JButton salvaCaricaMsgButton;
+    private JButton imgToTextButton;
     public static SenderUI senderUIInstance;
 
     public JPanel getPanelSender() {
@@ -82,6 +84,7 @@ public class SenderUI {
          * Permette la selezione del file da allegare tramite PathSelector.getFileSrc(), se la lista publicca della
          * classe Sender attachFile non contiene quel file, lo aggiunge
          */
+        //attachText.insertIcon(new ImageIcon("/home/simone/Immagini/Schermate/sch.png") );
         sendButton.addActionListener(e -> {
             Sender.send(from.getText(), to.getText(), cc.getText(), objectEmail.getText(), corpoMessaggio.getText());
         });
@@ -94,24 +97,23 @@ public class SenderUI {
                 throw new RuntimeException(ex);
             }
         });
+        salvaCaricaMsgButton.addActionListener(e->{
+            String[] option = {"Annulla", "Salva", "Carica"};
+            MsgManager msgManagerInstance = new MsgManager();
+            int answer  = JOptionPane.showOptionDialog(null,"Salva o carica email completa","Carica/Salva Email",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,option, option[0]);
+            switch (answer){
+                case 1:
+                    msgManagerInstance.salvaMsg();
+                    break;
+                case 2:
+                    msgManagerInstance.caricaMsg();
+                    break;
+                default:
+                    return;
+            }
+        });
         allegaButton.addActionListener(e-> {
             ManagerAllegati.aggiungiAllegato(attachText);
-/*
-            StringBuilder stringBuilder = new StringBuilder();// DA modificare, quanti oggetti inutili istanzio??
-            try {
-                File file = PathSelector.getFileSrc();
-                if (!Sender.attachFile.contains(file)) {
-                    Sender.attachFile.add(file);
-                }
-                for (File file_name : Sender.attachFile) {
-                    stringBuilder.append(file_name.getName().concat("\n"));
-                    attachText.setText(stringBuilder.toString());
-                }
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-
- */
         });
         rmAllegatiButton.addActionListener(e->{
             ManagerAllegati.rimuoviAllegato(attachText);
@@ -146,6 +148,13 @@ public class SenderUI {
                 linkCDlabel.setText("www.cyber-drops.com");
             }
         });
+        imgToTextButton.addActionListener(e->{
+            try {
+                corpoMessaggio.insertIcon(new ImageIcon(PathSelector.getFileSrc().getAbsolutePath()));
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
     }
 
@@ -156,7 +165,6 @@ public class SenderUI {
          */
         String parametri = "";
         try {
-            System.out.println("ok"+configUI.getConfig().isFile());
             Scanner scanner = new Scanner(configUI.getConfig());
             while (scanner.hasNext()) {
                 parametri = scanner.nextLine();
@@ -228,8 +236,31 @@ public class SenderUI {
     public JTextField getFrom() {
         return from;
     }
-
     public JTextPane getAttachText() {
         return attachText;
+    }
+
+    public JTextField getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to.setText(to);
+    }
+
+    public JTextField getCc() {
+        return cc;
+    }
+
+    public JTextField getObjectEmail() {
+        return objectEmail;
+    }
+
+    public JTextPane getCorpoMessaggio() {
+        return corpoMessaggio;
+    }
+
+    public boolean isChecked(){
+        return ricConfermaCheckBox.isSelected();
     }
 }

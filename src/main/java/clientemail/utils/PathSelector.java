@@ -40,4 +40,15 @@ public class PathSelector {
         System.out.println(jFchooser.getSelectedFile().getAbsolutePath());
         return jFchooser.getSelectedFile().getAbsolutePath();
     }
+
+    public static File saveFile(){
+        JFileChooser jFileChooser = new JFileChooser(System.getProperty("user.dir"));
+        int answer = jFileChooser.showSaveDialog(null);
+        if (answer == JFileChooser.APPROVE_OPTION){
+            File fileSave = jFileChooser.getSelectedFile();
+            return fileSave;
+        }
+        return null;
+    }
+
 }

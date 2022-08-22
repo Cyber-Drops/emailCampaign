@@ -75,8 +75,11 @@ public class Sender {
 
             // Setto il campo header con l'email From
             message.setFrom(new InternetAddress(from));
+
             //Conferma ricezione Email
-            //message.setHeader("Disposition-Notification-TO:","email per ricevuta");
+            if (SenderUI.senderUIInstance.isChecked()) {
+                message.setHeader("Disposition-Notification-TO:", "email per ricevuta");
+            }
 
             // Controllo formato email
             if (!emailString.isEmpty()) {
@@ -106,9 +109,7 @@ public class Sender {
             multipartMessagge.addBodyPart(messaggeBody);
             // setto l'allegato
             if (!attachFile.isEmpty()) {
-                System.out.println(Arrays.toString(attachFile.toArray()));
                 for (File file : attachFile) {
-                    System.out.println(file.getName());
                     // Creo un oggetto MimeBodyPart per l'allegato
                     MimeBodyPart messaggeAttachment = new MimeBodyPart();
                     messaggeAttachment.setDataHandler(new DataHandler(new FileDataSource(file)));

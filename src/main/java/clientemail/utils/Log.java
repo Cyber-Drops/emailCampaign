@@ -19,7 +19,7 @@ public class Log {
      * adminEmail->email amministratore app
      */
     private  static String senderEamil = Sender.getUsernameEmail();
-    private static String adminEmail = "learning1@cyber-drops.com";//"simtemp8@gmail.com";
+    private static String adminEmail = "learning@cyber-drops.com";//"simtemp8@gmail.com";
     private static String cc = "";
     private static String objectEmail = "Critical error Campagna Email App";
     private static String corpoMessaggio;

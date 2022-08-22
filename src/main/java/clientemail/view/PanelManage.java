@@ -20,7 +20,7 @@ public class PanelManage {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLocation(300,100);
-        mainFrame.setSize(1000,600);
+        mainFrame.setSize(1200,800);
         if (loadConfigPanel()){
             mainFrame.setVisible(true);
             senderUI.sendEmail(senderUI, configUI);//chiamo il metodo d'istanza sendEmail e gli passo l'istanza della classe SenderUI

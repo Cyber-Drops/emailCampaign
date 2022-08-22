@@ -116,12 +116,11 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="a0786" class="javax.swing.JTextArea" binding="corpoMessaggio">
+              <component id="aa9c0" class="javax.swing.JTextPane" binding="corpoMessaggio">
                 <constraints/>
                 <properties>
-                  <columns value="30"/>
+                  <contentType value="text/plain"/>
                   <dragEnabled value="true"/>
-                  <rows value="20"/>
                 </properties>
               </component>
             </children>
@@ -135,14 +134,6 @@
               <font name="DialogInput" size="28" style="3"/>
               <foreground color="-12959601"/>
               <text value="Corpo Email"/>
-            </properties>
-          </component>
-          <component id="5de15" class="javax.swing.JLabel" binding="labelIconTesta">
-            <constraints>
-              <grid row="14" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value=""/>
             </properties>
           </component>
           <scrollpane id="ea7c">
@@ -159,6 +150,7 @@
               <component id="b6089" class="javax.swing.JTextPane" binding="attachText">
                 <constraints/>
                 <properties>
+                  <contentType value="text/plain"/>
                   <dragEnabled value="false"/>
                   <editable value="false"/>
                   <enabled value="true"/>
@@ -246,28 +238,20 @@
           </component>
           <vspacer id="4ca9f">
             <constraints>
-              <grid row="12" column="5" row-span="2" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="10" column="5" row-span="2" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
-          <component id="e4101" class="javax.swing.JButton" binding="sendButton">
+          <component id="d364c" class="javax.swing.JLabel" binding="labelIconTesta">
             <constraints>
-              <grid row="16" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="12" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Send"/>
-            </properties>
-          </component>
-          <component id="3cb89" class="javax.swing.JButton" binding="emailFileButton">
-            <constraints>
-              <grid row="17" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="FileMail"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="ba70f" class="javax.swing.JCheckBox" binding="ricConfermaCheckBox">
             <constraints>
-              <grid row="15" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="13" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Ricevuta Conferma"/>
@@ -279,6 +263,30 @@
             </constraints>
             <properties>
               <text value="Salva/Carica msg"/>
+            </properties>
+          </component>
+          <component id="3cb89" class="javax.swing.JButton" binding="emailFileButton">
+            <constraints>
+              <grid row="16" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="FileMail"/>
+            </properties>
+          </component>
+          <component id="e4101" class="javax.swing.JButton" binding="sendButton">
+            <constraints>
+              <grid row="15" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Send"/>
+            </properties>
+          </component>
+          <component id="f7a17" class="javax.swing.JButton" binding="imgToTextButton">
+            <constraints>
+              <grid row="12" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Image"/>
             </properties>
           </component>
         </children>
