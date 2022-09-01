@@ -1,11 +1,13 @@
 package clientemail.view;
 
 import clientemail.exception.FileConfigException;
+import clientemail.send.Sender;
 import clientemail.utils.PathSelector;
 import javax.swing.*;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Config {
     private File configFile;
@@ -19,6 +21,8 @@ public class Config {
     private JButton congiButton;
     private static Config instanceConfig;
     private File pathWork;
+    private String fromAddressConfigFile;
+    private String passwConfigFile;
 
     {
         initComponent();//Inizializzo i componenti della UI tramite un inizializzatore di instanza
@@ -115,6 +119,31 @@ public class Config {
          */
         this.configFile = new File(pathWork.getAbsolutePath().concat(System.getProperty("file.separator").concat("config.conf")));
     }
+    public void settaParametriConfigurazione() {
+        String parametri = "";
+        try {
+            Scanner scanner = new Scanner(configFile);
+            while (scanner.hasNext()) {
+                parametri = scanner.nextLine();
+            }
+            String[] parametriArray = parametri.split(",");
+            fromAddressConfigFile = parametriArray[0];
+            passwConfigFile = parametriArray[1];
+        }catch (FileNotFoundException FileE) {
+        JOptionPane.showMessageDialog(null, "File config.conf non presente");
+        }
+    }
+    public void settaConfigurazione(){
+            SenderUI.senderUIInstance.getFrom().setText(fromAddressConfigFile);// scrive nella SenderUI username, visualizzato dall'utente
+            Sender.setUsername(fromAddressConfigFile);
+            Sender.setPassword(passwConfigFile);// setta la password in Sender, per l'invio
+            SenderUI.senderUIInstance.getLoadConfigButton().setEnabled(false);
 
-
+    }
+    public String getFromAddressConfigFile(){
+        return fromAddressConfigFile;
+    }
+    public String getPasswConfigFile(){
+        return passwConfigFile;
+    }
 }

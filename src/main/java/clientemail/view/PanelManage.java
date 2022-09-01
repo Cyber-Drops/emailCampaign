@@ -8,10 +8,7 @@ public class PanelManage {
     private static JFrame mainFrame = new JFrame("Client Email");
     private static SenderUI senderUI = new SenderUI(); //Istanzio la classe grafica per l'invio email;
     private static Config configUI;
-
     private static HelpUI helpUI;
-
-
     public static void startUI(){
         Config.setInstanceConfig();
         configUI = Config.getInstanceConfig();
@@ -23,7 +20,7 @@ public class PanelManage {
         mainFrame.setSize(1200,800);
         if (loadConfigPanel()){
             mainFrame.setVisible(true);
-            senderUI.sendEmail(senderUI, configUI);//chiamo il metodo d'istanza sendEmail e gli passo l'istanza della classe SenderUI
+            senderUI.sendEmail(senderUI);//chiamo il metodo d'istanza sendEmail e gli passo l'istanza della classe SenderUI
         }
 
     }
