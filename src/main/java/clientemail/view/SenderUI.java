@@ -147,7 +147,15 @@ public class SenderUI {
             switch (answer) { // enanched switch
                 case 1 -> msgManagerInstance.salvaMsg();
                 case 2 -> {
+                    //Sender.attachFile.clear();
+                    System.out.println(Arrays.toString(Sender.attachFile.toArray()));
+                    attachText.setText("");
+                    Sender.attachFile.clear();
                     corpoMessaggio.setText("");
+                    SenderUI.senderUIInstance.to.setText("");
+                    SenderUI.senderUIInstance.cc.setText("");
+                    SenderUI.senderUIInstance.objectEmail.setText("");
+
                     msgManagerInstance.caricaMsg();
                     setStringBilderToText();
                     testoImgPlaceHolder = stringBuilder.toString();

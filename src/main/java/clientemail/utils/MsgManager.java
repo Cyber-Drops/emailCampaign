@@ -47,9 +47,8 @@ public class MsgManager {
             SenderUI.senderUIInstance.setListaCid(salvataggio.listaCid);
             SenderUI.senderUIInstance.setStringBuilder(salvataggio.htmlStringBuilder);//Carico lo StringBuilder
             SenderUI.senderUIInstance.setPosizioneCursore(salvataggio.posizioneCursore);
-            if (!SenderUI.senderUIInstance.getAttachText().getText().isEmpty()) {
-                ManagerAllegati.caricaAllegati(salvataggio.allegati);
-            }
+            ManagerAllegati.caricaAllegati(salvataggio.allegati);
+            System.out.println(salvataggio.allegati);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

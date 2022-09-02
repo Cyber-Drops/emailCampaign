@@ -43,6 +43,8 @@ public class ManagerAllegati {
      */
     public static void caricaAllegati(String listaAllegati) {
         StringBuilder stringBuilder = new StringBuilder();
+        listaAllegati = listaAllegati.replace("[","");
+        listaAllegati = listaAllegati.replace("]","");
         String[] allegatiArray = listaAllegati.split(",");
         try {
             for (String f : allegatiArray) {
@@ -54,6 +56,7 @@ public class ManagerAllegati {
                     stringBuilder.append(file_name.getName().concat("\n"));
                 }
             }
+            System.out.println(stringBuilder);
             SenderUI.senderUIInstance.getAttachText().setText(stringBuilder.toString());
         }catch(Exception ex){
             throw new RuntimeException(ex);
