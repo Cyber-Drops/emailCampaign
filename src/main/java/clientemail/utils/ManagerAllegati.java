@@ -20,7 +20,6 @@ public class ManagerAllegati {
      */
     public static void aggiungiAllegato(JTextPane attachText){
         StringBuilder stringBuilder = new StringBuilder();// DA modificare, quanti oggetti inutili istanzio??
-        System.out.println("!!!!!!!!!"+stringBuilder);
         System.out.println(Arrays.toString(Sender.attachFile.toArray()));
         try {
             File file = PathSelector.getFileSrc();
