@@ -14,7 +14,7 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="4" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <background color="-2429"/>
+          <background color="-7305399"/>
           <visible value="true"/>
         </properties>
         <border type="none"/>
@@ -25,7 +25,7 @@
             </constraints>
             <properties>
               <font name="DialogInput" size="36" style="1"/>
-              <foreground color="-5017778"/>
+              <foreground color="-14405377"/>
               <text value="CAMPAGNA-EMAIL"/>
             </properties>
           </component>

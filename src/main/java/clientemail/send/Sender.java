@@ -91,7 +91,7 @@ public class Sender {
             }
         });
         // setto il debug su true così da poter vedere eventuali errori
-        session.setDebug(true);
+        //session.setDebug(true);
         return session;
     }
 
