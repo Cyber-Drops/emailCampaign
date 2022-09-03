@@ -47,8 +47,8 @@ public class MsgManager {
             SenderUI.senderUIInstance.setListaCid(salvataggio.listaCid);
             SenderUI.senderUIInstance.setStringBuilder(salvataggio.htmlStringBuilder);//Carico lo StringBuilder
             SenderUI.senderUIInstance.setPosizioneCursore(salvataggio.posizioneCursore);
+            System.out.println(">>>>>>"+salvataggio.allegati);
             ManagerAllegati.caricaAllegati(salvataggio.allegati);
-            System.out.println(salvataggio.allegati);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -67,8 +67,6 @@ public class MsgManager {
         private int posizioneCursore = SenderUI.senderUIInstance.getPosizioneCursore();
         private String testoImgPlaceHolder = SenderUI.senderUIInstance.getTestoImgPlaceHolder();
         private int n = SenderUI.senderUIInstance.getN();
-
-        //TODO attributo htmltext per img in line
 
     }
 }

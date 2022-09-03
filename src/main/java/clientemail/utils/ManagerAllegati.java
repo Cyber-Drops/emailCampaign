@@ -5,6 +5,7 @@ import clientemail.view.SenderUI;
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ManagerAllegati {
@@ -18,8 +19,9 @@ public class ManagerAllegati {
      * @param attachText usato per aggiungere i nomi dei file allegati.
      */
     public static void aggiungiAllegato(JTextPane attachText){
-
         StringBuilder stringBuilder = new StringBuilder();// DA modificare, quanti oggetti inutili istanzio??
+        System.out.println("!!!!!!!!!"+stringBuilder);
+        System.out.println(Arrays.toString(Sender.attachFile.toArray()));
         try {
             File file = PathSelector.getFileSrc();
             if (!Sender.attachFile.contains(file)) {
@@ -46,17 +48,21 @@ public class ManagerAllegati {
         listaAllegati = listaAllegati.replace("[","");
         listaAllegati = listaAllegati.replace("]","");
         String[] allegatiArray = listaAllegati.split(",");
+        System.out.println("-----------"+stringBuilder);
+        System.out.println(Arrays.toString(allegatiArray));
+        System.out.println(Arrays.toString(Sender.attachFile.toArray()));
         try {
             for (String f : allegatiArray) {
                 File file = new File(f);
                 if (!Sender.attachFile.contains(f)) {
                     Sender.attachFile.add(file);
                 }
+                System.out.println("<<<<"+Arrays.toString(Sender.attachFile.toArray()));
                 for (File file_name : Sender.attachFile) {
                     stringBuilder.append(file_name.getName().concat("\n"));
                 }
             }
-            System.out.println(stringBuilder);
+            System.out.println("-----------"+stringBuilder);
             SenderUI.senderUIInstance.getAttachText().setText(stringBuilder.toString());
         }catch(Exception ex){
             throw new RuntimeException(ex);

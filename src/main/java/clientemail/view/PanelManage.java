@@ -7,9 +7,12 @@ import java.awt.event.ActionEvent;
 public class PanelManage {
     private static JFrame mainFrame = new JFrame("Client Email");
     private static SenderUI senderUI = new SenderUI(); //Istanzio la classe grafica per l'invio email;
+    private static CreaCaricaConfig creaCaricaConfigUI;
     private static Config configUI;
     private static HelpUI helpUI;
     public static void startUI(){
+        CreaCaricaConfig.setCreaCaricaConfig(new CreaCaricaConfig());
+        creaCaricaConfigUI = CreaCaricaConfig.getCreaCaricaConfigInstance();
         Config.setInstanceConfig();
         configUI = Config.getInstanceConfig();
         HelpUI.setHelpInstace();
@@ -18,14 +21,14 @@ public class PanelManage {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLocation(300,100);
         mainFrame.setSize(1200,800);
-        if (loadConfigPanel()){
-            mainFrame.setVisible(true);
-            senderUI.sendEmail(senderUI);//chiamo il metodo d'istanza sendEmail e gli passo l'istanza della classe SenderUI
-        }
-
+        mainFrame.setVisible(true);
+        loadCreaCaricaConfigPanel();
+        senderUI.sendEmail(senderUI);//chiamo il metodo d'istanza sendEmail e gli passo l'istanza della classe SenderUI
     }
 
     public static void loadSendPanel(ActionEvent event){
+        mainFrame.setLocation(350,100);
+        mainFrame.setSize(1200,800);
         Container container = ((JButton) event.getSource()).getParent();
         while (!(container instanceof JFrame)){
             container = container.getParent();
@@ -33,13 +36,31 @@ public class PanelManage {
         ((JFrame) container).setContentPane(senderUI.getPanelSender());
         container.revalidate();
     }
+    public static void loadCreaCaricaConfigPanel( ){
+        mainFrame.setSize(800,500);
+        mainFrame.setLocation(550,200);
+        JPanel creaCaricaConfigPanel = creaCaricaConfigUI.getCreaCaricaConfigPanel();
+        mainFrame.setContentPane(creaCaricaConfigPanel);
+    }
+    public static void loadPanel(ActionEvent event){
+        mainFrame.setSize(800,500);
+        mainFrame.setLocation(550,200);
+        Container container = ((JButton) event.getSource()).getParent();
+        while (!(container instanceof JFrame)){
+            container = container.getParent();
+        }
+        ((JFrame) container).setContentPane(configUI.getConfigPanel());
+        container.revalidate();
+    }
 
-    public static boolean loadConfigPanel(){
+    public static boolean loadConfigPanel(ActionEvent e){
         if (!configUI.isConfig()){
-            mainFrame.setContentPane(configUI.getConfigPanel());
-            configUI.setConfigFile();
+            //loadConfigPanel(e);
+            loadPanel(e);
+            //controllo directory, listo .conf, se uno setto, altrimenti seleziono e setto.
+            //configUI.setConfigFile();
         }else {
-            mainFrame.setContentPane(senderUI.getPanelSender()); // //richiamo il pannello per invio email
+            loadSendPanel(e);
         }
         return true;
     }
@@ -52,5 +73,5 @@ public class PanelManage {
         ((JFrame) container).setContentPane(helpUI.getHelpPanel());
         container.revalidate();
     }
-
 }
+

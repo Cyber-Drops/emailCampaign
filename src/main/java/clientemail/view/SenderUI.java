@@ -57,7 +57,8 @@ public class SenderUI {
     public JPanel getPanelSender() {
         return panelSender;
     }
-
+    //PlaceHolder per Immagine ◘
+    //PlaceHolder per \n ◙
     public SenderUI() {} //Blocco il costruttore di default
     /**
      * Setto il parametro statico di istanza, così da poter richiamare i metodi d'istanza, senza crearne di
@@ -155,7 +156,6 @@ public class SenderUI {
                     SenderUI.senderUIInstance.to.setText("");
                     SenderUI.senderUIInstance.cc.setText("");
                     SenderUI.senderUIInstance.objectEmail.setText("");
-
                     msgManagerInstance.caricaMsg();
                     setStringBilderToText();
                     testoImgPlaceHolder = stringBuilder.toString();
@@ -221,7 +221,7 @@ public class SenderUI {
                             }
                             break;
                         case 10:
-                            stringBuilder.append("/");
+                            stringBuilder.append("◙");
                             break;
                         default:
                             if (!codCaratteriNulli.contains(e.getKeyCode())){
@@ -467,7 +467,7 @@ public class SenderUI {
             int docLenght = doc.getLength();
             try {
                 switch (ch){
-                    case '/':
+                    case '◙':
                         System.out.println(doc.getLength());
                         doc.insertString(docLenght,"\n", null);
                         break;
@@ -494,7 +494,7 @@ public class SenderUI {
         for (String st : stringBuilder.toString().lines().toList()) {
             if (st.contains("<br>")){
                 System.out.println("replace");
-                stringBuilder.replace(0,stringBuilder.length(),stringBuilder.toString().replaceAll("<br>","/"));
+                stringBuilder.replace(0,stringBuilder.length(),stringBuilder.toString().replaceAll("<br>","◙"));
                 //stringBuilder.replace(stringBuilder.indexOf("/"),stringBuilder.indexOf("/")+1,"<br>");
             }
             if (st.contains("<img")){
@@ -518,8 +518,8 @@ public class SenderUI {
 
     }
     public String parseHtml(){
-        long conta= stringBuilder.toString().chars().filter(ch -> ch == '/').count();
-        long conta1 = stringBuilder.toString().chars().filter(ch -> ch == '◘').count();
+        long conta= stringBuilder.toString().chars().filter(ch -> ch == '◙').count(); //Inverse White Circle
+        long conta1 = stringBuilder.toString().chars().filter(ch -> ch == '◘').count(); //Inverse Bullet
         System.out.println("conta1"+conta1);
         //for (String st : stringBuilder.toString().lines().toList()) {
             //System.out.println(st);
@@ -543,7 +543,7 @@ public class SenderUI {
         }
         for (int o = 0; o < conta; o++){
             System.out.println("replace");
-            stringBuilder.replace(0,stringBuilder.length(),stringBuilder.toString().replaceAll("/","<br>"));
+            stringBuilder.replace(0,stringBuilder.length(),stringBuilder.toString().replaceAll("◙","<br>"));
             //stringBuilder.replace(stringBuilder.indexOf("/"),stringBuilder.indexOf("/")+1,"<br>");
         }
             //} else if (st.contains("1")){

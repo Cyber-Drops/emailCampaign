@@ -24,6 +24,9 @@ public class Sender {
      */
     private static  String passwordEmail;// Password google account associata all'app
     private static String usernameEmail;
+    private static String hostSMTP;
+    private static String portTLS;
+
     private static String emailString = "";// Stringa delle email lette dal file, sono tutte separate da virgola
     public static List<File> attachFile = new ArrayList<>();// Lista degli allegati
     public static String mailStatus;
@@ -56,15 +59,26 @@ public class Sender {
 
     public static Session createSession(String from){
         // Imposto i parametri del server email, poi in file.conf
-        String host = "smtp.gmail.com";
-
+        //String host = "smtp.gmail.com";
+        //String host = "out.alice.it";
+        String host = hostSMTP;
+        String port = portTLS;
         // Recupero le proprietà del sistema e creo l'oggetto Proprierties
         Properties properties = System.getProperties();
 
         // Aggiungo i parametri per il server email
+        /*
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", "465");
         properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("email.smtp.tls.enable", "true");
+        properties.put("mail.smtp.auth", "true");
+        */
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", port);
+        if (host.equals("smtp.gmail.com")){
+            properties.put("mail.smtp.ssl.enable", "true");
+        }
         properties.put("email.smtp.tls.enable", "true");
         properties.put("mail.smtp.auth", "true");
 
@@ -268,6 +282,8 @@ public class Sender {
     public static void setUsername(String username){
         usernameEmail = username;
     }
+    public static void setHost(String serveSMTP){hostSMTP = serveSMTP;}
+    public static void setPortTLS(String tlsPort){portTLS = tlsPort;}
 
     public static String getUsernameEmail() {
         return usernameEmail;

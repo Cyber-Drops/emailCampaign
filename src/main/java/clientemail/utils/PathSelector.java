@@ -6,12 +6,11 @@ import java.io.File;
 public class PathSelector {
     /**
      *Classe per la gestione di file e directory
+
+     * Apre un JFileChooser per la selezione di un file, lancia un eccezione in caso di file null
+     * @return oggetto di tipo File
      */
     public static File getFileSrc() throws Exception {
-        /**
-         * Apre un JFileChooser per la selezione di un file, lancia un eccezione in caso di file null
-         * @return oggetto di tipo File
-         */
         JFileChooser jFchooser = new JFileChooser(System.getProperty("user.dir"));
         jFchooser.showOpenDialog(null);
         File file = jFchooser.getSelectedFile();
