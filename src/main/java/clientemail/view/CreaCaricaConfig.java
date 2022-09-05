@@ -12,6 +12,7 @@ public class CreaCaricaConfig {
     private JPanel creaCaricaConfigPanel;
     private JPanel panel1;
     private JLabel imageConfigLabel;
+    private JButton rubricaButton;
     private boolean caricaButtonPressed = false;
     private static CreaCaricaConfig creaCaricaConfigInstance;
 
@@ -52,6 +53,9 @@ public class CreaCaricaConfig {
             caricaButtonPressed = true;
             PanelManage.loadConfigPanel(e);
             //PanelManage.loadSendPanel(e);
+        });
+        rubricaButton.addActionListener(e->{
+            PanelManage.loadRubricaPanel(e);
         });
     }
     public boolean isCaricaButtonPressed(){

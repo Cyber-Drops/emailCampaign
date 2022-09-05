@@ -42,6 +42,14 @@ public class PanelManage {
         JPanel creaCaricaConfigPanel = creaCaricaConfigUI.getCreaCaricaConfigPanel();
         mainFrame.setContentPane(creaCaricaConfigPanel);
     }
+    public static void loadRubricaPanel(ActionEvent event){
+        Container container = ((JButton) event.getSource()).getParent();
+        while (!(container instanceof JFrame)){
+            container = container.getParent();
+        }
+        ((JFrame) container).setContentPane(Rubrica.getRubricaUIinstance().getPanel1());
+        container.revalidate();
+    }
     public static void loadPanel(ActionEvent event){
         mainFrame.setSize(800,500);
         mainFrame.setLocation(550,200);
@@ -73,5 +81,6 @@ public class PanelManage {
         ((JFrame) container).setContentPane(helpUI.getHelpPanel());
         container.revalidate();
     }
+
 }
 
