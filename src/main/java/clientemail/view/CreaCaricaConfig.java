@@ -40,8 +40,12 @@ public class CreaCaricaConfig {
     }
     private void initComponent(){
         CreaConfigButton.addActionListener(e->{
-            PanelManage.loadPanel(e);
             String pathWork = PathSelector.getPathWork();
+            if (!pathWork.equals("annulla")){
+                PanelManage.loadPanel(e);
+            }else {
+                PanelManage.loadCreaCaricaConfigPanel();
+            }
             Config.getInstanceConfig().setPathWork(new File(pathWork));
         });
         CaricaConfigButton.addActionListener(e->{

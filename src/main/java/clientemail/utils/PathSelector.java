@@ -36,8 +36,12 @@ public class PathSelector {
         JFileChooser jFchooser = new JFileChooser(System.getProperty("user.dir"));
         jFchooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         jFchooser.showOpenDialog(null);
-        System.out.println(jFchooser.getSelectedFile().getAbsolutePath());
-        return jFchooser.getSelectedFile().getAbsolutePath();
+        File pathFile = jFchooser.getSelectedFile();
+        if (pathFile != null){
+            return pathFile.getAbsolutePath();
+        }else {
+            return "annulla";
+        }
     }
 
     public static File saveFile(){
