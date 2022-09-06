@@ -15,6 +15,7 @@ public class PanelManage {
         creaCaricaConfigUI = CreaCaricaConfig.getCreaCaricaConfigInstance();
         Config.setInstanceConfig();
         configUI = Config.getInstanceConfig();
+        ContattoUI.setContattoUIInstance();
         HelpUI.setHelpInstace();
         helpUI = HelpUI.getHelpInstace();
         mainFrame.setLocationRelativeTo(null);
@@ -47,7 +48,15 @@ public class PanelManage {
         while (!(container instanceof JFrame)){
             container = container.getParent();
         }
-        ((JFrame) container).setContentPane(Rubrica.getRubricaUIinstance().getPanel1());
+        ((JFrame) container).setContentPane(RubricaUI.getRubricaUIinstance().getPanel1());
+        container.revalidate();
+    }
+    public static void loadConattoPanel(ActionEvent event){
+        Container container = ((JButton) event.getSource()).getParent();
+        while (!(container instanceof JFrame)){
+            container = container.getParent();
+        }
+        ((JFrame) container).setContentPane(ContattoUI.getContattoUIInstance().getContattoUIPanel());
         container.revalidate();
     }
 

@@ -1,20 +1,23 @@
 package clientemail.view;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
-public class Rubrica {
+public class RubricaUI {
+    private List<String[]> contatto = new ArrayList<>();
+    private List<List> rubrica = new ArrayList<>();
     private JPanel panel1;
     private JScrollPane rubricaScrollPane;
     private JTable rubricaTable;
-    private final static Rubrica rubricaUIinstance = new Rubrica();
+    private JButton aggiungiButton;
+    private JButton RimuovuButton;
+    private JButton modificaButton;
+    private JButton cercaButton;
+    private final static RubricaUI rubricaUIinstance = new RubricaUI();
 
-    public Rubrica(){
+    public RubricaUI() {
+        /*
         String[][] s = new String[4][4];
         Object[] columnNames = { "", "" , "",""};
         s[0][0] = "ciao";
@@ -25,12 +28,25 @@ public class Rubrica {
         rubricaTable.getColumnModel().getColumn(2).setHeaderValue("Cognome");
         rubricaTable.getColumnModel().getColumn(3).setHeaderValue("Telefono");
         rubricaTable.getTableHeader().repaint();
+         */
+        aggiungiButton.addActionListener(e->{
+            PanelManage.loadConattoPanel(e);
+        });
     }
-    public static Rubrica getRubricaUIinstance(){
+
+    public static RubricaUI getRubricaUIinstance() {
         return rubricaUIinstance;
     }
 
-    public JPanel getPanel1(){
+    public JPanel getPanel1() {
         return panel1;
+    }
+
+    public void aggiungiContatto(String email, String nome, String cognome) {
+
+    }
+
+    public void aggiungiContatto(String email, String nome, String cognome, String telefono) {
+
     }
 }
