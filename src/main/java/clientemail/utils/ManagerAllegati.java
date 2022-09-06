@@ -20,10 +20,7 @@ public class ManagerAllegati {
      */
     public static void aggiungiAllegato(JTextPane attachText){
         StringBuilder stringBuilder = new StringBuilder();// DA modificare, quanti oggetti inutili istanzio??
-<<<<<<< HEAD
-=======
         System.out.println("!!!!!!!!!"+stringBuilder);
->>>>>>> ced708b (Aggiorno commit locale per fare pull da remoto)
         System.out.println(Arrays.toString(Sender.attachFile.toArray()));
         try {
             File file = PathSelector.getFileSrc();
@@ -51,10 +48,9 @@ public class ManagerAllegati {
         listaAllegati = listaAllegati.replace("[","");
         listaAllegati = listaAllegati.replace("]","");
         String[] allegatiArray = listaAllegati.split(",");
-<<<<<<< HEAD
-=======
+
         System.out.println("-----------"+stringBuilder);
->>>>>>> ced708b (Aggiorno commit locale per fare pull da remoto)
+
         System.out.println(Arrays.toString(allegatiArray));
         System.out.println(Arrays.toString(Sender.attachFile.toArray()));
         try {
@@ -71,10 +67,9 @@ public class ManagerAllegati {
                     }
                 }
             }
-<<<<<<< HEAD
-=======
+
             System.out.println("-----------"+stringBuilder);
->>>>>>> ced708b (Aggiorno commit locale per fare pull da remoto)
+
             SenderUI.senderUIInstance.getAttachText().setText(stringBuilder.toString());
         }catch(Exception ex){
             throw new RuntimeException(ex);

@@ -42,7 +42,6 @@ public class PanelManage {
         JPanel creaCaricaConfigPanel = creaCaricaConfigUI.getCreaCaricaConfigPanel();
         mainFrame.setContentPane(creaCaricaConfigPanel);
     }
-<<<<<<< HEAD
     public static void loadRubricaPanel(ActionEvent event){
         Container container = ((JButton) event.getSource()).getParent();
         while (!(container instanceof JFrame)){
@@ -51,8 +50,7 @@ public class PanelManage {
         ((JFrame) container).setContentPane(Rubrica.getRubricaUIinstance().getPanel1());
         container.revalidate();
     }
-=======
->>>>>>> ced708b (Aggiorno commit locale per fare pull da remoto)
+
     public static void loadPanel(ActionEvent event){
         mainFrame.setSize(800,500);
         mainFrame.setLocation(550,200);

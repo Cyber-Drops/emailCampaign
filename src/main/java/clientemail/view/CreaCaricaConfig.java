@@ -12,10 +12,9 @@ public class CreaCaricaConfig {
     private JPanel creaCaricaConfigPanel;
     private JPanel panel1;
     private JLabel imageConfigLabel;
-<<<<<<< HEAD
+
     private JButton rubricaButton;
-=======
->>>>>>> ced708b (Aggiorno commit locale per fare pull da remoto)
+
     private boolean caricaButtonPressed = false;
     private static CreaCaricaConfig creaCaricaConfigInstance;
 
@@ -44,17 +43,13 @@ public class CreaCaricaConfig {
     }
     private void initComponent(){
         CreaConfigButton.addActionListener(e->{
-<<<<<<< HEAD
+
             String pathWork = PathSelector.getPathWork();
             if (!pathWork.equals("annulla")){
                 PanelManage.loadPanel(e);
             }else {
                 PanelManage.loadCreaCaricaConfigPanel();
             }
-=======
-            PanelManage.loadPanel(e);
-            String pathWork = PathSelector.getPathWork();
->>>>>>> ced708b (Aggiorno commit locale per fare pull da remoto)
             Config.getInstanceConfig().setPathWork(new File(pathWork));
         });
         CaricaConfigButton.addActionListener(e->{
@@ -62,12 +57,10 @@ public class CreaCaricaConfig {
             PanelManage.loadConfigPanel(e);
             //PanelManage.loadSendPanel(e);
         });
-<<<<<<< HEAD
+
         rubricaButton.addActionListener(e->{
             PanelManage.loadRubricaPanel(e);
         });
-=======
->>>>>>> ced708b (Aggiorno commit locale per fare pull da remoto)
     }
     public boolean isCaricaButtonPressed(){
         return caricaButtonPressed;
