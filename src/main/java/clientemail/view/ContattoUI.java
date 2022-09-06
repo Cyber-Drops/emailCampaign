@@ -1,8 +1,11 @@
 package clientemail.view;
 
 import clientemail.utils.Contatto;
+import clientemail.utils.Rubrica;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContattoUI {
     private JPanel panel1;
@@ -21,14 +24,15 @@ public class ContattoUI {
             String email = emailContattoUI.getText();
             String nome = nomeContattoUI.getText();
             String cognome = cognomeContattoUI.getText();
-            String telefono = cognomeContattoUI.getText();
-            if (telefonoContattoUI.getText().isEmpty()) {
-                Contatto contatto = new Contatto(email, nome, cognome);
-                System.out.println(contatto);
-            }else {
-                Contatto contatto1 = new Contatto(email, nome, cognome, telefono);
-                System.out.println(contatto1);
-            }
+            String telefono = telefonoContattoUI.getText();
+            List<String> dati = new ArrayList<>();
+            dati.add(email);
+            dati.add(nome);
+            dati.add(cognome);
+            dati.add(telefono);
+            Contatto contatto = new Contatto(dati);
+            Rubrica.getRubricaInstance().getContattiRubrica().add(contatto);
+            System.out.println(Rubrica.getRubricaInstance());
         });
     }
 

@@ -1,5 +1,7 @@
 package clientemail.view;
 
+import clientemail.utils.Rubrica;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,6 +18,7 @@ public class PanelManage {
         Config.setInstanceConfig();
         configUI = Config.getInstanceConfig();
         ContattoUI.setContattoUIInstance();
+        Rubrica.setRubricaInstance();
         HelpUI.setHelpInstace();
         helpUI = HelpUI.getHelpInstace();
         mainFrame.setLocationRelativeTo(null);

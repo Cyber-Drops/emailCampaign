@@ -1,29 +1,33 @@
 package clientemail.utils;
 
-public class Contatto {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-    private String email;
-    private String nome;
-    private String cognome;
-    private String telefono;
+public class Contatto extends ArrayList {
 
-    public Contatto(String email, String nome, String cognome){
-        this.email = email;
-        this.nome = nome;
-        this.cognome = cognome;
-    }
-    public Contatto(String email, String nome, String cognome, String telefono){
-        this.email = email;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.telefono = telefono;
+    private List<String> datiContatto;
+
+    public Contatto(List<String> dati){
+        this.datiContatto = dati;
     }
 
+    public List<String> getDatiContatto() {
+        return datiContatto;
+    }
 
     @Override
     public String toString() {
         StringBuilder contattoString = new StringBuilder();
-        contattoString.append(this.email).append(this.nome).append(this.cognome).append(this.telefono);
+        int i = 0;
+        for (String dato : datiContatto) {
+            contattoString.append(dato);
+            if (i < 3){
+                contattoString.append(",");
+            }
+            i++;
+        }
         return contattoString.toString();
     }
+
 }

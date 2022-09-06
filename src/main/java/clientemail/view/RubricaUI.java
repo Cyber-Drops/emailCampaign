@@ -1,12 +1,14 @@
 package clientemail.view;
 
+import clientemail.utils.Contatto;
+import clientemail.utils.Rubrica;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RubricaUI {
-    private List<String[]> contatto = new ArrayList<>();
-    private List<List> rubrica = new ArrayList<>();
     private JPanel panel1;
     private JScrollPane rubricaScrollPane;
     private JTable rubricaTable;
@@ -17,10 +19,9 @@ public class RubricaUI {
     private final static RubricaUI rubricaUIinstance = new RubricaUI();
 
     public RubricaUI() {
-        /*
-        String[][] s = new String[4][4];
+        List<Contatto> rubricaList = Rubrica.getRubricaInstance().getContattiRubrica();
+        String[][] s = new String[rubricaList.size()][4];
         Object[] columnNames = { "", "" , "",""};
-        s[0][0] = "ciao";
         DefaultTableModel model = new DefaultTableModel(s,columnNames);
         rubricaTable.setModel(model);
         rubricaTable.getColumnModel().getColumn(0).setHeaderValue("Email");
@@ -28,9 +29,13 @@ public class RubricaUI {
         rubricaTable.getColumnModel().getColumn(2).setHeaderValue("Cognome");
         rubricaTable.getColumnModel().getColumn(3).setHeaderValue("Telefono");
         rubricaTable.getTableHeader().repaint();
-         */
         aggiungiButton.addActionListener(e->{
             PanelManage.loadConattoPanel(e);
+            for (Contatto contatto : rubricaList) {
+                for (Object dato : contatto) {
+                    System.out.println(dato);
+                }
+            }
         });
     }
 
