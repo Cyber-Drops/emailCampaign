@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Contatto extends ArrayList {
+public class Contatto {
 
     private List<String> datiContatto;
 

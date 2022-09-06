@@ -32,7 +32,7 @@ public class RubricaUI {
         aggiungiButton.addActionListener(e->{
             PanelManage.loadConattoPanel(e);
             for (Contatto contatto : rubricaList) {
-                for (Object dato : contatto) {
+                for (Object dato : contatto.getDatiContatto()) {
                     System.out.println(dato);
                 }
             }
