@@ -17,7 +17,9 @@
         <children>
           <component id="4a82c" class="javax.swing.JTable" binding="rubricaTable">
             <constraints/>
-            <properties/>
+            <properties>
+              <focusable value="false"/>
+            </properties>
           </component>
         </children>
       </scrollpane>

@@ -52,6 +52,9 @@ public class PanelManage {
             container = container.getParent();
         }
         ((JFrame) container).setContentPane(RubricaUI.getRubricaUIinstance().getPanel1());
+        //RubricaUI.getRubricaUIinstance().aggiornaRubricaUI();
+        Rubrica.getRubricaInstance().salvaRubricaGson();
+        Rubrica.getRubricaInstance().caricaRubricaGson();
         container.revalidate();
     }
     public static void loadConattoPanel(ActionEvent event){
