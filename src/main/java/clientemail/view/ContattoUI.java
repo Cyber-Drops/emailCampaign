@@ -15,6 +15,9 @@ public class ContattoUI {
     private JTextField telefonoContattoUI;
     private JPanel contattoUIPanel;
     private JButton confermaContattoButton;
+
+    private JButton indietroContattoUIButton;
+
     private static ContattoUI contattoUIInstance;
 
     private ContattoUI(){
@@ -28,9 +31,14 @@ public class ContattoUI {
             dati.add(nome);
             dati.add(cognome);
             dati.add(telefono);
-            Contatto contatto = new Contatto(dati);
+            Contatto contatto = new Contatto(dati); //Nuova istanza di Contatto
             Rubrica.getRubricaInstance().getContattiRubrica().add(contatto);
+            RubricaUI.getRubricaUIinstance().aggiornaRubricaUI(contatto);
             System.out.println(Rubrica.getRubricaInstance());
+        });
+        indietroContattoUIButton.addActionListener(e->{
+            resetUIForm();
+            PanelManage.loadRubricaPanel(e);
         });
     }
 
@@ -43,5 +51,13 @@ public class ContattoUI {
 
     public JPanel getContattoUIPanel(){
         return contattoUIPanel;
+    }
+
+    public void resetUIForm(){
+        emailContattoUI.setText("");
+        nomeContattoUI.setText("");
+        cognomeContattoUI.setText("");
+        telefonoContattoUI.setText("");
+
     }
 }
