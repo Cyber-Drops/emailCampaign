@@ -15,9 +15,7 @@ public class ContattoUI {
     private JTextField telefonoContattoUI;
     private JPanel contattoUIPanel;
     private JButton confermaContattoButton;
-
     private static ContattoUI contattoUIInstance;
-
 
     private ContattoUI(){
         confermaContattoButton.addActionListener(e->{
