@@ -54,6 +54,7 @@ public class Rubrica {
             Rubrica rubrica = rubricaGson.fromJson(reader, Rubrica.class);
             setRubricaInstance(rubrica);
             RubricaUI.getRubricaUIinstance().aggiornaRubricaUI();
+            System.out.println("File Caricato");
         }catch (FileNotFoundException rubricaFileNotFoundEx){
             JOptionPane.showMessageDialog(null,"File Rubrica non esiste");
         }

@@ -33,6 +33,7 @@ public class ContattoUI {
             dati.add(telefono);
             Contatto contatto = new Contatto(dati); //Nuova istanza di Contatto
             Rubrica.getRubricaInstance().getContattiRubrica().add(contatto);
+            Rubrica.getRubricaInstance().salvaRubricaGson();
             RubricaUI.getRubricaUIinstance().aggiornaRubricaUI(contatto);
             System.out.println(Rubrica.getRubricaInstance());
         });

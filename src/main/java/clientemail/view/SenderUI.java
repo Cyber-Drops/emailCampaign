@@ -45,6 +45,8 @@ public class SenderUI {
     private JCheckBox ricConfermaCheckBox;
     private JButton salvaCaricaMsgButton;
     private JButton imgToTextButton;
+    private JButton caricaDaRubricaButton;
+    private JButton indietroSenderUI;
     private Path path;
     private StringBuilder stringBuilder = new StringBuilder();
     private int n = 0;
@@ -177,6 +179,9 @@ public class SenderUI {
         helpButton.addActionListener(e->{
             PanelManage.loadHelpPanel(e);
             HelpUI.getHelpInstace().componiHelpmenu();
+        });
+        indietroSenderUI.addActionListener(e->{
+            PanelManage.loadCreaCaricaConfigPanel();
         });
         linkCDlabel.addMouseListener(new MouseAdapter() {
             @Override

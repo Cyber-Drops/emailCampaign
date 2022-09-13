@@ -26,6 +26,7 @@ public class Config {
     private JTextField smtpServer;
     private JLabel portaServer;
     private JTextField smtpTLSport;
+    private JButton indietroConfigUI;
     private static Config instanceConfig;
     private File pathWork;
     private String fromAddressConfigFile;
@@ -142,6 +143,9 @@ public class Config {
             }else {
                 PanelManage.loadSendPanel(e);
             }
+        });
+        indietroConfigUI.addActionListener(e->{
+            PanelManage.loadCreaCaricaConfigPanel();
         });
     }
 

@@ -4,7 +4,7 @@ import clientemail.utils.Rubrica;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 
 public class PanelManage {
     private static JFrame mainFrame = new JFrame("Client Email");
@@ -19,10 +19,48 @@ public class PanelManage {
         configUI = Config.getInstanceConfig();
         ContattoUI.setContattoUIInstance();
         Rubrica.setRubricaInstance();
+        Rubrica.getRubricaInstance().caricaRubricaGson();
         HelpUI.setHelpInstace();
         helpUI = HelpUI.getHelpInstace();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Rubrica.getRubricaInstance().salvaRubricaGson();
+                System.out.println("File Salavato");
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
         mainFrame.setLocation(300,100);
         mainFrame.setSize(1200,800);
         mainFrame.setVisible(true);
@@ -53,8 +91,7 @@ public class PanelManage {
         }
         ((JFrame) container).setContentPane(RubricaUI.getRubricaUIinstance().getPanel1());
         //RubricaUI.getRubricaUIinstance().aggiornaRubricaUI();
-        Rubrica.getRubricaInstance().salvaRubricaGson();
-        Rubrica.getRubricaInstance().caricaRubricaGson();
+        //Rubrica.getRubricaInstance().caricaRubricaGson();
         container.revalidate();
     }
     public static void loadConattoPanel(ActionEvent event){

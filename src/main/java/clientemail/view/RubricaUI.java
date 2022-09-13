@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RubricaUI {
@@ -19,6 +18,7 @@ public class RubricaUI {
     private JButton RimuovuButton;
     private JButton modificaButton;
     private JButton cercaButton;
+    private JButton indietroRubricaUI;
     private final static RubricaUI rubricaUIinstance = new RubricaUI();
 
     public RubricaUI() {
@@ -44,6 +44,9 @@ public class RubricaUI {
             PanelManage.loadConattoPanel(e);
 
         });
+        indietroRubricaUI.addActionListener(e->{
+            PanelManage.loadCreaCaricaConfigPanel();
+        });
     }
 
     public static RubricaUI getRubricaUIinstance() {
@@ -59,6 +62,7 @@ public class RubricaUI {
         List<Contatto> rubricaList = Rubrica.getRubricaInstance().getContattiRubrica();
         model.addRow(rubricaList.toArray());
         int row = model.getRowCount()-1;
+        //System.out.println(row);
         int col = 0;
             for (Object dato : contatto.getDatiContatto()) {
                 model.setValueAt(dato, row, col);
@@ -69,14 +73,20 @@ public class RubricaUI {
         rubricaTable.setAutoCreateRowSorter(true);
         List<Contatto> rubricaList = Rubrica.getRubricaInstance().getContattiRubrica();
         //model.addRow(rubricaList.toArray());
+        //int row = model.getRowCount() - 1;
+        int row = 0;
+        System.out.println(row);
+        //int row = 0;
         if (!rubricaList.isEmpty()) {
             for (Contatto contatto : rubricaList) {
-                int row = model.getRowCount() - 1;
+                //model.addRow(rubricaList.toArray());
+                System.out.println(contatto);
                 int col = 0;
                 for (Object dato : contatto.getDatiContatto()) {
                     model.setValueAt(dato, row, col);
                     col++;
                 }
+                row++;
             }
         }
     }
