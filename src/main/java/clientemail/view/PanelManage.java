@@ -19,7 +19,7 @@ public class PanelManage {
         configUI = Config.getInstanceConfig();
         ContattoUI.setContattoUIInstance();
         Rubrica.setRubricaInstance();
-        Rubrica.getRubricaInstance().caricaRubricaGson();
+        Rubrica.getRubricaInstance().caricaRubricaGson();// metodo che carica Rubrica da Gson
         HelpUI.setHelpInstace();
         helpUI = HelpUI.getHelpInstace();
         mainFrame.setLocationRelativeTo(null);

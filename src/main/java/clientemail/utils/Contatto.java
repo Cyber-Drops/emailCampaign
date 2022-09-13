@@ -4,7 +4,12 @@ import java.util.List;
 
 public class Contatto {
 
-    private List<String> datiContatto;
+    private List<String> datiContatto; //Lista di String dati del contatto
+
+    /**
+     * Costruttore di un Contatto, crea un oggetto di tipo contatto
+     * @param dati oggetto di tipo lista di String
+     */
 
     public Contatto(List<String> dati){
         this.datiContatto = dati;
@@ -27,5 +32,4 @@ public class Contatto {
         }
         return contattoString.toString();
     }
-
 }

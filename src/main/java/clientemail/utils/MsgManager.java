@@ -8,10 +8,19 @@ import javax.swing.*;
 import java.io.*;
 import java.util.List;
 
-
+/**
+ * Classe che si occupa della gestione di un messaggio da salvare in memoria o caricare.
+ * Il messaggio è una inner class chiamata Salvataggio
+ */
 public class MsgManager {
 
     private Gson gsonSalvataggio = new Gson();
+
+    /**
+     * Salva un istanza dell' oggetto di tipo Salvataggio in un file Gson con un nome dato
+     * dall'utente tramite il metodo saveFile() della classe PathSelector.
+     * Solleva un eccezione di tipo FileNotFoundException.
+     */
     public void salvaMsg(){
         Salvataggio salvataggio = new Salvataggio();
         String salvataggioGson = gsonSalvataggio.toJson(salvataggio);
@@ -30,6 +39,12 @@ public class MsgManager {
             }
         }
     }
+
+    /**
+     * Carica un messaggio da un file Gson selezionato dall'utente tramite il metodo getFileSrc() della
+     * classe PathSelector, settando gli attributi necessari per ricomporre la mail salvata della classe
+     * SenderUI, caricando anche gli allegati.
+     */
     public void caricaMsg(){
         try {
             File file = PathSelector.getFileSrc();
@@ -53,6 +68,12 @@ public class MsgManager {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * classe utilizzata per tenere memoria dei parametri utili ai fini del salvataggio ed al caricamento della
+     * email, così da salvarli e caricarli tramite un file Gson. Tra i quali troviamo anche un attributo che
+     * tiene traccia del cursore.
+     */
     public class Salvataggio {
         //private String from = SenderUI.senderUIInstance.getFrom().getText();
         private String to = SenderUI.senderUIInstance.getTo().getText();

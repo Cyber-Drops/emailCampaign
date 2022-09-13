@@ -9,15 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rubrica {
-    private List<Contatto> contattiRubrica = new ArrayList<>();
-    private static Rubrica rubricaInstance;
+    private List<Contatto> contattiRubrica = new ArrayList<>(); //Lista di oggetti Contatto
+    private static Rubrica rubricaInstance; // instanza unica della Rubrica
 
     public Rubrica(){}
 
     public static void setRubricaInstance(){ //Instanziata nella classe PanelManage, metodo start()
         rubricaInstance = new Rubrica();
     }
-    public static void setRubricaInstance(Rubrica rubrica){
+
+    /**
+     * Overloading del metodo setRubricaInstance, con il quale viene settata l'istanze dell'oggetto Rubrica,
+     * passandogli l'istanza stessa caricata dal File Gson, così ad ogni caricamento sono sicuro di avere la
+     * stessa rubrica che ho salvato.
+     * @param rubrica Oggetto di tipo Rubrica caricato dal file Gson
+     */
+    public static void setRubricaInstance(Rubrica rubrica){ //Chiamato nel metodo caricaRubricaGson (questa classe)
         rubricaInstance = rubrica;
     }
 
@@ -29,9 +36,10 @@ public class Rubrica {
         return contattiRubrica;
     }
 
-    public void aggiungiContatto(Contatto contatto) {
-        this.contattiRubrica.add(contatto);
-    }
+    /**
+     * Salva un istanza di tipo Rubrica in formato Gson in un file chiamato rubrica, sollevando
+     * un eccezione di tipo IOException in caso di errore.
+     */
 
     public void salvaRubricaGson(){
         Gson rubricaGson = new Gson();
@@ -46,17 +54,24 @@ public class Rubrica {
             JOptionPane.showMessageDialog(null,"Errore Salvataggio Rubrica");
         }
     }
+
+    /**
+     * Carica un oggetto di tipo Rubrica da un file in formato Gson chiamato rubrica e residente nella
+     * directory di avvio del programma, con il quale setta l'istanza di Rubrica.java. Chiama il metodo
+     * aggiornaRubricaUI.
+     * Gestisce l'eccezione in caso di mancanza del file rubrica
+     */
     public void caricaRubricaGson(){
         Gson rubricaGson = new Gson();
         File saveFile = new File(System.getProperty("user.dir").concat(System.getProperty("file.separator").concat("rubrica")));
         try {
             FileReader reader = new FileReader(saveFile);
-            Rubrica rubrica = rubricaGson.fromJson(reader, Rubrica.class);
-            setRubricaInstance(rubrica);
+            Rubrica rubrica = rubricaGson.fromJson(reader, Rubrica.class);//carico l'oggetto dal file Gson
+            setRubricaInstance(rubrica);// setto l'istanza con l'oggetto rubrica caricato dal file Gson
             RubricaUI.getRubricaUIinstance().aggiornaRubricaUI();
             System.out.println("File Caricato");
         }catch (FileNotFoundException rubricaFileNotFoundEx){
-            JOptionPane.showMessageDialog(null,"File Rubrica non esiste");
+            JOptionPane.showMessageDialog(null,"File Rubrica non esiste, sarà creato in seguito");
         }
     }
 
