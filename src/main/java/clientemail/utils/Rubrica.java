@@ -8,6 +8,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Astrazione di una rubrica come lista di oggetti Contatto
+ */
 public class Rubrica {
     private List<Contatto> contattiRubrica = new ArrayList<>(); //Lista di oggetti Contatto
     private static Rubrica rubricaInstance; // instanza unica della Rubrica

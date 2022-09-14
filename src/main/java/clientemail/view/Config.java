@@ -10,6 +10,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Classe che si occupa della configurazione dell' app, e della porte grafica per permettere all' utente di inserire
+ * i dati relativi alla configurazione
+ */
 public class Config {
     private File configFile;
     private String ultimaConfigSalvata;
@@ -38,13 +42,12 @@ public class Config {
         initComponent();//Inizializzo i componenti della UI tramite un inizializzatore di instanza
     }
     public Config() {} //Blocco il costruttore di default
-
+    /**
+     * Metodo che verifica la presenza del file config.conf, se il file è
+     * presente chiama il metodo setConfigFile
+     * @retutn true se esiste il file config.conf, flase altrimenti
+     */
     public Boolean isConfig(){
-        /**
-         * Metodo che verifica la presenza del file config.conf, se il file è
-         * presente chiama il metodo setConfigFile
-         * @retutn true se esiste il file config.conf, flase altrimenti
-         */
             JOptionPane.showMessageDialog(null,"Seleziona la cartella con almeno un file di " +
                     "configurazione .config");
             pathWork = new File(PathSelector.getPathWork());
@@ -62,32 +65,31 @@ public class Config {
             }
             return false;
     }
+    /**
+     * Metodo che crea un instanza dell'oggetto Config e lo assegna all'attributo di
+     * instanza instanceConfig, cosi da poter accedere anche ai metodi di instanza tramite
+     * metodo statico
+     */
     public static void setInstanceConfig(){
-        /**
-         * Metodo che crea un instanza dell'oggetto Config e lo assegna all'attributo di
-         * instanza instanceConfig, cosi da poter accedere anche ai metodi di instanza tramite
-         * metodo statico
-         */
         instanceConfig = new Config();
     }
-
+    /**
+     * Metodo di accesso all' instanza dell'oggetto Config cosi da poter accedere
+     * anche ai metodi di instanza tramite metodo statico
+     * @return instanceConfig Oggetto di tipo Config, Istanza di Config
+     */
     public static Config getInstanceConfig(){
-        /**
-         * Metodo di accesso all' instanza dell'oggetto Config cosi da poter accedere
-         * anche ai metodi di instanza tramite metodo statico
-         * @return instanceConfig Oggetto di tipo Config, Istanza di Config
-         */
         return instanceConfig;
     }
 
     public void setPathWork(File path){
         this.pathWork = path;
     }
+    /**
+     * Metodo per la scrittura del file.conf
+     * Viene creato un file config.conf nel quale si trascrive username,password
+     */
     public void setConfig() {
-        /**
-         * Metodo per la scrittura del file.conf
-         * Viene creato un file config.conf nel quale si trascrive username,password
-         */
         char[] passwdEmail = passwordEmail.getPassword();
         String email = emailFrom.getText();
         String serverSMTP = smtpServer.getText();
@@ -117,19 +119,17 @@ public class Config {
         }
         return true;
     }
-
+    /**
+     * Metodo per accedere al file contenente i settaggi utili
+     * @return configFile Oggetto di tipo File, il file di configurazione
+     */
     public File getConfig() throws FileConfigException {
-        /**
-         * Metodo per accedere al file contenente i settaggi utili
-         * @return configFile Oggetto di tipo File, il file di configurazione
-         */
         return configFile;
     }
-
+    /**
+     * Metodo per inizializzare i componenti della UI
+     */
     private  void initComponent(){
-        /**
-         * Metodo per inizializzare i componenti della UI
-         */
         congiButton.addActionListener(e -> {
             if (!parametriConfigIsEmpti()){
                 JOptionPane.showMessageDialog(null, "Parametri Non Compilati Presenti");
@@ -148,18 +148,17 @@ public class Config {
             PanelManage.loadCreaCaricaConfigPanel();
         });
     }
-
+    /**
+     * Metodo per accedere al JPanel della finestra di configurazione, utile per caricare la finestra
+     * @return configPanel Oggetto di tipo JPanel, la finestra di configurazione
+     */
     public JPanel getConfigPanel() {
-        /**
-         * Metodo per accedere al JPanel della finestra di configurazione, utile per caricare la finestra
-         * @return configPanel Oggetto di tipo JPanel, la finestra di configurazione
-         */
         return configPanel;
     }
+    /**
+     * Metodo per il setting dell'attributo configFile, oggetto di tipo File (config.conf)
+     */
     public void setConfigFile(){
-        /**
-         * Metodo per il setting dell'attributo configFile, oggetto di tipo File (config.conf)
-         */
         Object[] configurazioni = nomiConfigFileList.toArray();
         int indexConfigFile = JOptionPane.showOptionDialog(null, "Seleziona la configurazione da caricare!", "Carica Configurazione",JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, configurazioni, configurazioni );
         this.configFile = new File(pathWork.getAbsolutePath().concat(System.getProperty("file.separator").concat(configurazioni[indexConfigFile].toString())));
@@ -192,13 +191,14 @@ public class Config {
     public String getFromAddressConfigFile(){
         return fromAddressConfigFile;
     }
+
+    /**
+     * Ripulisce i campi nella finestra di configurazione
+     */
     public void resetCampiConfigUI(){
         emailFrom.setText("");
         passwordEmail.setText("");
         smtpServer.setText("");
         smtpTLSport.setText("");
-    }
-    public String getPasswConfigFile(){
-        return passwConfigFile;
     }
 }

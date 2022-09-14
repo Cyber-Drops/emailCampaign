@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Grafica dei dati di un oggetto di tipo Contatto, con comandi per aggiungere il contatto.
+ */
 public class ContattoUI {
     private JPanel panel1;
     private JTextField emailContattoUI;
@@ -20,6 +23,13 @@ public class ContattoUI {
 
     private static ContattoUI contattoUIInstance;
 
+    /**
+     * Costruttore della grafica per aggiungere un contatto, inizializza anche i componenti della
+     * finestra.
+     * Alla conferma di aggiunta del contatto, crea un oggetto di tipo Contatto con i dati inseriti
+     * dall'utente nei vari form, aggiungendolo alla Rubrica, salvandolo nel file rubrica Gson ed aggiorna
+     * la JTable della rubrica a livello grafico
+     */
     private ContattoUI(){
         confermaContattoButton.addActionListener(e->{
             String email = emailContattoUI.getText();
@@ -44,16 +54,19 @@ public class ContattoUI {
     }
 
     public static void setContattoUIInstance(){
-        contattoUIInstance = new ContattoUI();
+        contattoUIInstance = new ContattoUI(); //Chiamato nel PanelManage startUI()
     }
     public static ContattoUI getContattoUIInstance(){
         return contattoUIInstance;
     }
 
     public JPanel getContattoUIPanel(){
-        return contattoUIPanel;
+        return contattoUIPanel; // Per il caricamento della finestra per aggiungere il contatto.
     }
 
+    /**
+     * Ripulisce i campi nel form della finestra per aggiungere il contatto
+     */
     public void resetUIForm(){
         emailContattoUI.setText("");
         nomeContattoUI.setText("");

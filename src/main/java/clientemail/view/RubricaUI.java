@@ -9,6 +9,9 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.util.List;
 
+/**
+ * Visualizzazione grafica della rubrica, con i vari comandi per interagire con la stessa.
+ */
 public class RubricaUI {
     private JPanel panel1;
     private JScrollPane rubricaScrollPane;
@@ -21,21 +24,27 @@ public class RubricaUI {
     private JButton indietroRubricaUI;
     private final static RubricaUI rubricaUIinstance = new RubricaUI();
 
+    /**
+     * Costruttore della grafica di una rubrica, rappresentata da una tabella Jtable, popolata
+     * dai dati dei contatti (Oggetto Contatto) contenuto nella Rubrica.
+     * Inoltre inizializza i componenti della UI
+     */
     public RubricaUI() {
         List<Contatto> rubricaList = Rubrica.getRubricaInstance().getContattiRubrica();
-        String[][] s = new String[rubricaList.size()][4];
-        Object[] columnNames = { "", "" , "",""};
-        model = new DefaultTableModel(s,columnNames);
+        String[][] s = new String[rubricaList.size()][4];// Variabile per inizializzare righe e colonne
+        Object[] columnNames = { "", "" , "",""};// Variabile pèer inizializzare il nome delle colonne
+        model = new DefaultTableModel(s,columnNames);// Creo il modello in base al numero righe, colonne e nome colonne
         rubricaTable.setModel(model);
-        rubricaTable.getColumnModel().getColumn(0).setHeaderValue("Email");
+        rubricaTable.getColumnModel().getColumn(0).setHeaderValue("Email");// Setto i nomi delle colonne
         rubricaTable.getColumnModel().getColumn(1).setHeaderValue("Nome");
         rubricaTable.getColumnModel().getColumn(2).setHeaderValue("Cognome");
         rubricaTable.getColumnModel().getColumn(3).setHeaderValue("Telefono");
-        rubricaTable.getTableHeader().repaint();
+        rubricaTable.getTableHeader().repaint();// Aggiorno la grafice della JTable
 
+        //Creo un oggetto tabella ordinata passando il modello della mia JTable
         TableRowSorter<TableModel> sorterTable = new TableRowSorter<>(rubricaTable.getModel());
-        rubricaTable.setRowSorter(sorterTable);
-        sorterTable.setSortable(0,true);
+        rubricaTable.setRowSorter(sorterTable); //Imposto le righe come ordinabili
+        sorterTable.setSortable(0,true); //Imposto le colonne come ordinabili, cliccando sull'intestazione
         sorterTable.setSortable(1,true);
         sorterTable.setSortable(2,true);
         sorterTable.setSortable(3,true);
@@ -54,13 +63,18 @@ public class RubricaUI {
     }
 
     public JPanel getPanel1() {
-        return panel1;
+        return panel1;// Usato per ricaricare la finestra della rubrica
     }
 
+    /**
+     * Aggiorna la JTable rappresentante la rubrica dopo aver aggiunto un contatto
+     * @param contatto Oggetto di tipo Contatto, contatto appena aggiunto alla Rubrica
+     */
     public void aggiornaRubricaUI(Contatto contatto){
-        rubricaTable.setAutoCreateRowSorter(true);
+        //TODO impostare per l'aggiunta di un contatto l'indice dell'ultima riga, senza far ricaricare tutta la rubrica
+        //rubricaTable.setAutoCreateRowSorter(true);
         List<Contatto> rubricaList = Rubrica.getRubricaInstance().getContattiRubrica();
-        model.addRow(rubricaList.toArray());
+        model.addRow(rubricaList.toArray());// Si assicura che il contatto venga aggiunto in ultima posizione
         int row = model.getRowCount()-1;
         //System.out.println(row);
         int col = 0;
@@ -69,8 +83,13 @@ public class RubricaUI {
                 col++;
             }
     }
+
+    /**
+     * Overload di aggiornaRubrica(Contatto), aggiorna la rubrica a livello grafico prelevando
+     * la rubrica con i suoi contatti ed i suoi dati dal file Gson rubrica.
+     */
     public void aggiornaRubricaUI(){
-        rubricaTable.setAutoCreateRowSorter(true);
+        //rubricaTable.setAutoCreateRowSorter(true);
         List<Contatto> rubricaList = Rubrica.getRubricaInstance().getContattiRubrica();
         //model.addRow(rubricaList.toArray());
         //int row = model.getRowCount() - 1;
@@ -89,13 +108,5 @@ public class RubricaUI {
                 row++;
             }
         }
-    }
-
-    public void aggiungiContatto(String email, String nome, String cognome) {
-
-    }
-
-    public void aggiungiContatto(String email, String nome, String cognome, String telefono) {
-
     }
 }

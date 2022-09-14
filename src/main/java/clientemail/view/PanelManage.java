@@ -6,12 +6,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Classe per la gestione delle finestre
+ */
+
 public class PanelManage {
     private static JFrame mainFrame = new JFrame("Client Email");
     private static SenderUI senderUI = new SenderUI(); //Istanzio la classe grafica per l'invio email;
     private static CreaCaricaConfig creaCaricaConfigUI;
     private static Config configUI;
     private static HelpUI helpUI;
+
+    /**
+     * Avvio dell'app con l'interfaccia, gestione della configurazione delle istanze primarie per l'avvio.
+     */
     public static void startUI(){
         CreaCaricaConfig.setCreaCaricaConfig(new CreaCaricaConfig());
         creaCaricaConfigUI = CreaCaricaConfig.getCreaCaricaConfigInstance();

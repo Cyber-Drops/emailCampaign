@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Finestra UI per impostare le email, con mittente, destinatario, allegati, immagini ecc..
+ */
 public class SenderUI {
     private JPanel mainPanel; //Pannello principale
     private JTextField from;
@@ -57,7 +60,7 @@ public class SenderUI {
     public static SenderUI senderUIInstance;
 
     public JPanel getPanelSender() {
-        return panelSender;
+        return panelSender;// Permette il caricamento della finestra
     }
     //PlaceHolder per Immagine ◘
     //PlaceHolder per \n ◙
@@ -70,8 +73,9 @@ public class SenderUI {
      * chiamo il metodo initComponent() per inizializzare i componenti dell'interfaccia grafica
      * @param senderUI istanza della Classe SenderUI, creata nella classe PanelManager.
      */
-    public  void sendEmail(SenderUI senderUI){
-        senderUIInstance = senderUI;
+    public  void sendEmail(SenderUI senderUI){// Chiamato dal PanelManage startUI()
+        senderUIInstance = senderUI;// Setto l'istanza SenderUI
+        //Gestisco le immagini della finestra
         if (System.getProperty("os.name").contains("Windows")){
            URL logoPng = (getClass().getClassLoader().getResource("image/logo100_100.png"));
            URL testaJpg = getClass().getClassLoader().getResource("image/avatarCyberDrops_Testa_150.jpg");
@@ -107,11 +111,14 @@ public class SenderUI {
      * 3) salvaCaricaMsgButton........
      * 4) allegaButton richiama il metodo della classe ManagerAllegati aggiungi allegato(), passandogli JTextPane.
      * 5) rmAllegatiButton richiama il metodo della classe ManagerAllegati rimuoviAllegati(), passando JTextPane.
-     * 6) loadConfigButton
-     * 7) helpButton
-     * 8) linkCDlabel
-     * 9) corpoMessaggio
-     * 10) imgToTextButton
+     * 6) loadConfigButton Imposta i parametri di configurazione tramite i file.conf, chiamando i metodi setteParametri
+     *      DiConfigurazione() e settaConfigurazione() della classe Config
+     * 7) helpButton Mostra la sezione dell'help con riferimenti a guide online
+     * 8) linkCDlabel Crea una label come Link, con la quale sarà possibile raggiungere le guide online
+     * 9) corpoMessaggio Tramite un KeyListner legge i tasti premuti dalla tastiera gestendo il ritorno a capo con il
+     *      placeHoder ◙, gestisce il backSpace per cancellare ed aggiornare la posizione del cursore
+     * 10) imgToTextButton Gestisce l'inserimento di un immagine nel corpo della mail tramite un placeHolder ◘ ed il
+     *      campo cid dell'html così da aggiungere l'immagine nella propria posizine nel testo.
      */
     private  void initComponent(){
         //Config configUI = Config.getInstanceConfig();
@@ -148,8 +155,8 @@ public class SenderUI {
             MsgManager msgManagerInstance = new MsgManager();
             int answer  = JOptionPane.showOptionDialog(null,"Salva o carica email completa","Carica/Salva Email",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null,option, option[0]);
             switch (answer) { // enanched switch
-                case 1 -> msgManagerInstance.salvaMsg();
-                case 2 -> {
+                case 1 -> msgManagerInstance.salvaMsg();//Salva
+                case 2 -> {//Carica
                     //Sender.attachFile.clear();
                     System.out.println(Arrays.toString(Sender.attachFile.toArray()));
                     attachText.setText("");
@@ -265,7 +272,6 @@ public class SenderUI {
                         //stringBuilder.append(e.getKeyChar());
                     }
                 }
-
  */
             }
             @Override
@@ -354,15 +360,19 @@ public class SenderUI {
         }
         return false;
     }
-    public void setFrom(String addressFrom){
-        from.setText(addressFrom);
-    }
     public JButton getLoadConfigButton() {
         return loadConfigButton;
     }
     public void setToFocusable(boolean bool){
         to.setEnabled(bool);
     }
+
+    /**
+     * Gestisce il caricamento della barra in base ai Thread dell'invio della mail.
+     * @param percenuale Integer, caricamento
+     * @param inProgress Boolean, true se non ci sono problemi ed il Thread procede; False se si blocca un Thread
+     *                   durante l'invio del messaggio.
+     */
     public static void progressBarFill(int percenuale, boolean inProgress) {
         if (inProgress) {
             int i = percenuale;
@@ -385,6 +395,11 @@ public class SenderUI {
             senderUIInstance.setFillBar(percenuale);
         }
     }
+
+    /**
+     * Si occupa di impostare il riempimento della barra con l'intero passatogli.
+     * @param fill Integer, quanto carico la barra
+     */
     public void setFillBar(int fill){
         sendProgressBar.setValue(fill);
     }
@@ -420,22 +435,41 @@ public class SenderUI {
         return ricConfermaCheckBox.isSelected();
     }
 
-    public int getN() {
+    /**
+     * @return Integer, numero usato per l'inserimento delle immagini tramite cid html
+     */
+    public int getN() {//Chiamato dalla sottoclasse salvataggio, nella classe MsgManager
         return n;
     }
 
+    /**
+     * Imposta il numero usato per l'inserimento delle immagini tramite cid html
+     * @param n Integer numero per il cid html image
+     */
     public void setN(int n) {
         this.n = n;
     }
 
+    /**
+     * @return Integer ritorna la posizione del cursore come intero
+     */
     public int getPosizioneCursore() {
         return posizioneCursore;
     }
 
+    /**
+     * Setta la posizione del cursore
+     * @param posizioneCursore Integer, posizione del cursore
+     */
     public void setPosizioneCursore(int posizioneCursore) {
         this.posizioneCursore = posizioneCursore;
     }
 
+    /**
+     * Aggiunge ad uno stringBuilder usato per memorizzare l'html la stringa passatagli, in questo caso il placeHolder
+     * per le immagini ◘
+     * @param htmlLine String, testo html, ◘
+     */
     public void writeHtmlFile(String htmlLine) {
         stringBuilder.append(htmlLine);
         System.out.println("StringBuilder"+stringBuilder);
@@ -458,12 +492,23 @@ public class SenderUI {
     public void setStringBuilder(StringBuilder stringBuilder) {
         this.stringBuilder = stringBuilder;
     }
+
+    /**
+     * Restituisce la lista dei cid html così da poterli richiamare per aggiungere le immagini nel corpo della email
+     * @return lista di String
+     */
     public List<String> getListaCid() {
         return listaCid;
     }
     public void setListaCid(List<String> listaCid) {
         this.listaCid = listaCid;
     }
+
+    /**
+     *Carica le immagini per il corpo della mail dal file, tramite testoImgPlaceHolder con il quale inserisco
+     * ogni volta che trovo ◙ lo \n, ogni volta che trovo  ◘ al corpo del messaggio l'imageIcon estratta dalla lista
+     * delle iconImageLine ed infine per tutti gli altri caratteri fa l'append.
+     */
     public void caricaImgIcon(){
         char[] charsPlaceholder = testoImgPlaceHolder.toCharArray();
         Document doc = corpoMessaggio.getDocument();
@@ -486,15 +531,20 @@ public class SenderUI {
             } catch (BadLocationException locationException){
                 System.out.println(locationException.getMessage());
             }
-
         }
-        corpoMessaggio.addFocusListener(new FocusAdapter() {
+        corpoMessaggio.addFocusListener(new FocusAdapter() {//Aggiungo un nuovo focus listner al corpo del messaggio
+                                                            // nella UI
             @Override
             public void focusGained(FocusEvent e) {
                 super.focusGained(e);
             }
         });
     }
+
+    /**
+     * Traduce un testo html in testo normale eliminando i tag ed inserendo al loro posto i placeHolder (<br> con ◙);
+     * (<img.. che identifica l'inizio del cid con ◘)
+     */
     public void setStringBilderToText(){
         for (String st : stringBuilder.toString().lines().toList()) {
             if (st.contains("<br>")){
@@ -520,8 +570,13 @@ public class SenderUI {
             }
         }
         System.out.println("convertito "+stringBuilder.toString());
-
     }
+
+    /**
+     * Trasforma il testo (stringBuilder) in html rimpiazzando i placeHolder con i tag ed il cid html (◙ con i cid dela listaCid) e
+     * (◙ con il tag html <br>)
+     * @return Oggetto di tipo StringBuilder
+     */
     public String parseHtml(){
         long conta= stringBuilder.toString().chars().filter(ch -> ch == '◙').count(); //Inverse White Circle
         long conta1 = stringBuilder.toString().chars().filter(ch -> ch == '◘').count(); //Inverse Bullet
@@ -578,13 +633,7 @@ public class SenderUI {
          */
         return stringBuilder.toString();
     }
-    public String getHtmlTextMail() {
-        return htmlTextMail;
-    }
 
-    public void setHtmlTextMail(String htmlTextMail) {
-        this.htmlTextMail = htmlTextMail;
-    }
     public List<String> getIconImgLine() {
         return iconImgLine;
     }
