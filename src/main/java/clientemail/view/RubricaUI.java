@@ -20,6 +20,7 @@ public class RubricaUI {
     private JButton aggiungiButton;
     private JButton rimuovuButton;
     private JButton modificaButton;
+    private boolean modificaIsPressed = false;
     private JButton cercaButton;
     private JButton indietroRubricaUI;
     private final static RubricaUI rubricaUIinstance = new RubricaUI();
@@ -76,15 +77,8 @@ public class RubricaUI {
             ContattoUI.getContattoUIInstance().getNomeContattoUI().setText((String) nome);
             ContattoUI.getContattoUIInstance().getCognomeContattoUI().setText((String) cognome);
             ContattoUI.getContattoUIInstance().getTelefonoContattoUI().setText((String) telefono);
+            setModificaIsPressed(true);
             PanelManage.loadConattoPanel(e);
-            System.out.println(ContattoUI.getContattoUIInstance().confermaButtonIsPressed());
-            if (ContattoUI.getContattoUIInstance().confermaButtonIsPressed()){
-                System.out.println("Rimosso e modificato");
-                Rubrica.getRubricaInstance().getContattiRubrica().remove(firstSelecteRow);
-                ((DefaultTableModel)rubricaTable.getModel()).removeRow(firstSelecteRow);
-            }
-            //ContattoUI.getContattoUIInstance().setConfermaButtonIsPressed(false);
-            System.out.println(firstSelecteRow);
         });
         indietroRubricaUI.addActionListener(e->{
             PanelManage.loadCreaCaricaConfigPanel();
@@ -141,5 +135,25 @@ public class RubricaUI {
                 row++;
             }
         }
+    }
+
+    /**
+     * Aggiorna la Rubrica e la RubricaUI se viene richiesta la modifica del contatto
+     */
+    public void aggiornaRubricaModifica(){//Chiamato da ContattoUI, confermaButton, se e solo se siamo entrati
+                                        //nel pannello ContattoUI tramite il bottone modifica che setta il
+                                        //booleano modificaIsPressed su true
+        int firstSelecteRow = rubricaTable.getSelectedRow();
+        ((DefaultTableModel)rubricaTable.getModel()).removeRow(firstSelecteRow);
+        setModificaIsPressed(false);
+        System.out.println("secondo first: "+firstSelecteRow);
+    }
+
+    public boolean isModificaIsPressed() {
+        return modificaIsPressed;
+    }
+
+    public void setModificaIsPressed(boolean modificaIsPressed) {
+        this.modificaIsPressed = modificaIsPressed;
     }
 }

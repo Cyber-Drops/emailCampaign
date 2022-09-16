@@ -46,8 +46,10 @@ public class ContattoUI {
             Rubrica.getRubricaInstance().getContattiRubrica().add(contatto);
             Rubrica.getRubricaInstance().salvaRubricaGson();
             RubricaUI.getRubricaUIinstance().aggiornaRubricaUI(contatto);
-            setConfermaButtonIsPressed(true);
             System.out.println(Rubrica.getRubricaInstance());
+            if (RubricaUI.getRubricaUIinstance().isModificaIsPressed()){
+                RubricaUI.getRubricaUIinstance().aggiornaRubricaModifica();
+            }
         });
         indietroContattoUIButton.addActionListener(e->{
             resetUIForm();
