@@ -18,7 +18,7 @@ public class RubricaUI {
     private JTable rubricaTable;
     private DefaultTableModel model;
     private JButton aggiungiButton;
-    private JButton RimuovuButton;
+    private JButton rimuovuButton;
     private JButton modificaButton;
     private JButton cercaButton;
     private JButton indietroRubricaUI;
@@ -52,6 +52,39 @@ public class RubricaUI {
         aggiungiButton.addActionListener(e->{
             PanelManage.loadConattoPanel(e);
 
+        });
+        rimuovuButton.addActionListener(e->{
+            int nRowSelected = rubricaTable.getSelectedRowCount();
+            int firstSelecteRow = rubricaTable.getSelectedRow();
+            if (nRowSelected == 1){
+                Rubrica.getRubricaInstance().getContattiRubrica().remove(firstSelecteRow);//Rimuovo il contatto da Rubrica
+                ((DefaultTableModel)rubricaTable.getModel()).removeRow(firstSelecteRow);//Rimuovo la riga dalla tab
+            }else {
+                for (int i = firstSelecteRow+nRowSelected-1; i >= firstSelecteRow; i-- ){
+                    Rubrica.getRubricaInstance().getContattiRubrica().remove(i);//Rimuovo il contatto da Rubrica
+                    ((DefaultTableModel)rubricaTable.getModel()).removeRow(i);
+                }
+            }
+        });
+        modificaButton.addActionListener(e->{
+            int firstSelecteRow = rubricaTable.getSelectedRow();
+            Object email = rubricaTable.getValueAt(firstSelecteRow,0);
+            Object nome = rubricaTable.getValueAt(firstSelecteRow,1);
+            Object cognome = rubricaTable.getValueAt(firstSelecteRow,2);
+            Object telefono = rubricaTable.getValueAt(firstSelecteRow,3);
+            ContattoUI.getContattoUIInstance().getEmailContattoUI().setText((String) email);
+            ContattoUI.getContattoUIInstance().getNomeContattoUI().setText((String) nome);
+            ContattoUI.getContattoUIInstance().getCognomeContattoUI().setText((String) cognome);
+            ContattoUI.getContattoUIInstance().getTelefonoContattoUI().setText((String) telefono);
+            PanelManage.loadConattoPanel(e);
+            System.out.println(ContattoUI.getContattoUIInstance().confermaButtonIsPressed());
+            if (ContattoUI.getContattoUIInstance().confermaButtonIsPressed()){
+                System.out.println("Rimosso e modificato");
+                Rubrica.getRubricaInstance().getContattiRubrica().remove(firstSelecteRow);
+                ((DefaultTableModel)rubricaTable.getModel()).removeRow(firstSelecteRow);
+            }
+            //ContattoUI.getContattoUIInstance().setConfermaButtonIsPressed(false);
+            System.out.println(firstSelecteRow);
         });
         indietroRubricaUI.addActionListener(e->{
             PanelManage.loadCreaCaricaConfigPanel();
@@ -89,17 +122,17 @@ public class RubricaUI {
      * la rubrica con i suoi contatti ed i suoi dati dal file Gson rubrica.
      */
     public void aggiornaRubricaUI(){
+        System.out.println("aggiornata");
         //rubricaTable.setAutoCreateRowSorter(true);
         List<Contatto> rubricaList = Rubrica.getRubricaInstance().getContattiRubrica();
         //model.addRow(rubricaList.toArray());
         //int row = model.getRowCount() - 1;
         int row = 0;
-        System.out.println(row);
-        //int row = 0;
+        //System.out.println(row);
         if (!rubricaList.isEmpty()) {
             for (Contatto contatto : rubricaList) {
                 //model.addRow(rubricaList.toArray());
-                System.out.println(contatto);
+                //System.out.println(contatto);
                 int col = 0;
                 for (Object dato : contatto.getDatiContatto()) {
                     model.setValueAt(dato, row, col);

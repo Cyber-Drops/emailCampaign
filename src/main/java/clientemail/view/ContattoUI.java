@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class ContattoUI {
     private JPanel panel1;
+    private boolean pressed = false;
     private JTextField emailContattoUI;
     private JTextField nomeContattoUI;
     private JTextField cognomeContattoUI;
@@ -45,12 +46,20 @@ public class ContattoUI {
             Rubrica.getRubricaInstance().getContattiRubrica().add(contatto);
             Rubrica.getRubricaInstance().salvaRubricaGson();
             RubricaUI.getRubricaUIinstance().aggiornaRubricaUI(contatto);
+            setConfermaButtonIsPressed(true);
             System.out.println(Rubrica.getRubricaInstance());
         });
         indietroContattoUIButton.addActionListener(e->{
             resetUIForm();
             PanelManage.loadRubricaPanel(e);
         });
+    }
+
+    public boolean confermaButtonIsPressed(){
+        return this.pressed;
+    }
+    public void setConfermaButtonIsPressed(boolean pressed){
+        this.pressed = pressed;
     }
 
     public static void setContattoUIInstance(){
@@ -62,6 +71,22 @@ public class ContattoUI {
 
     public JPanel getContattoUIPanel(){
         return contattoUIPanel; // Per il caricamento della finestra per aggiungere il contatto.
+    }
+
+    public JTextField getEmailContattoUI() {
+        return emailContattoUI;
+    }
+
+    public JTextField getNomeContattoUI() {
+        return nomeContattoUI;
+    }
+
+    public JTextField getCognomeContattoUI() {
+        return cognomeContattoUI;
+    }
+
+    public JTextField getTelefonoContattoUI() {
+        return telefonoContattoUI;
     }
 
     /**
