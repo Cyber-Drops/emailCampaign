@@ -150,6 +150,9 @@ public class SenderUI {
                 throw new RuntimeException(ex);
             }
         });
+        caricaDaRubricaButton.addActionListener(e->{
+            PanelManage.loadRubricaPanel(e);
+        });
         salvaCaricaMsgButton.addActionListener(e->{
             String[] option = {"Annulla", "Salva", "Carica"};
             MsgManager msgManagerInstance = new MsgManager();

@@ -7,6 +7,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,8 +24,8 @@ public class RubricaUI {
     private JButton rimuovuButton;
     private JButton modificaButton;
     private boolean modificaIsPressed = false;
-    private JButton cercaButton;
     private JButton indietroRubricaUI;
+    private JTextField ricercaField;
     private final static RubricaUI rubricaUIinstance = new RubricaUI();
 
     /**
@@ -83,6 +86,31 @@ public class RubricaUI {
         indietroRubricaUI.addActionListener(e->{
             PanelManage.loadCreaCaricaConfigPanel();
         });
+        ricercaField.addKeyListener(new KeyListener() {
+            StringBuilder ricercaString = new StringBuilder();
+            List<Character> charsListRicerca = new ArrayList<>();
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                //ricercaString.append(e.getKeyChar());
+                if (e.getKeyCode() == 8 && !charsListRicerca.isEmpty()){
+                    System.out.println("carattere rimosso: " + charsListRicerca.get(charsListRicerca.size()-1));
+                    charsListRicerca.remove(charsListRicerca.size()-1);
+                }else {
+                    charsListRicerca.add(e.getKeyChar());
+                }
+                aggiornaRubricaRicerca(charsListRicerca);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
     }
 
     public static RubricaUI getRubricaUIinstance() {
@@ -138,6 +166,21 @@ public class RubricaUI {
     }
 
     /**
+     * Dopo aver ripulito la JTable visualizza a video i contatti interessati dalla ricerca
+     * @param contattoList contatti risultanti dalla ricerca
+     */
+    public void aggiornaRubricaUI(List<Contatto> contattoList){
+        deleteAllRow();
+        System.out.println("2");
+        System.out.println("aggiornata Ricerca");
+        if (!contattoList.isEmpty()) {
+            for (Contatto contatto : contattoList) {
+                ((DefaultTableModel)rubricaTable.getModel()).addRow(contatto.getDatiContatto().toArray());
+            }
+        }
+    }
+
+    /**
      * Aggiorna la Rubrica e la RubricaUI se viene richiesta la modifica del contatto
      */
     public void aggiornaRubricaModifica(){//Chiamato da ContattoUI, confermaButton, se e solo se siamo entrati
@@ -155,5 +198,36 @@ public class RubricaUI {
 
     public void setModificaIsPressed(boolean modificaIsPressed) {
         this.modificaIsPressed = modificaIsPressed;
+    }
+
+    /**
+     * Aggiorna la visualizzazione della rubrica con la lista di contatti che fanno math con la
+     * ricerca
+     * @param characterList contatti che fanno match con la stringa di ricerca
+     */
+    public void aggiornaRubricaRicerca(List<Character> characterList){
+        String ricercaString = "";
+        List<Contatto> contattiRicercati = new ArrayList<>();
+        for (Character chars : characterList) {
+            ricercaString += chars;
+        }
+        for (Contatto contatto : Rubrica.getRubricaInstance().getContattiRubrica()) {
+            String stringaVerifica = contatto.getDatiContatto().get(0);
+            if (stringaVerifica.startsWith(ricercaString) || stringaVerifica.contains(ricercaString) ){
+                contattiRicercati.add(contatto);
+                aggiornaRubricaUI(contattiRicercati);
+            }
+
+        }
+        System.out.println(ricercaString);
+    }
+
+    /**
+     * Prepara la JTable per la visualizzazione dei soli contatti ricercati cancellando tutte le righe
+     */
+    public void deleteAllRow(){
+        for (int i = rubricaTable.getRowCount()-1; i >= 0 ; i--){
+            ((DefaultTableModel)rubricaTable.getModel()).removeRow(i);
+        }
     }
 }
