@@ -7,6 +7,7 @@ import clientemail.view.SenderUI;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class EmailConstructor {
@@ -31,6 +32,7 @@ public class EmailConstructor {
         }
         return emailString;
     }
+
     /**
      * Metodo per il controllo dei caratteri che compongono le stringhe delle email.
      * @param stringEmailList di tipo stringa, può essere un email o più di una separate da virgola.

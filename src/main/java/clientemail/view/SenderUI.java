@@ -151,6 +151,7 @@ public class SenderUI {
             }
         });
         caricaDaRubricaButton.addActionListener(e->{
+            RubricaUI.getRubricaUIinstance().setEnableCaricaButton();
             PanelManage.loadRubricaPanel(e);
         });
         salvaCaricaMsgButton.addActionListener(e->{

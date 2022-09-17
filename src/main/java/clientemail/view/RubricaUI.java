@@ -1,5 +1,6 @@
 package clientemail.view;
 
+import clientemail.send.Sender;
 import clientemail.utils.Contatto;
 import clientemail.utils.Rubrica;
 
@@ -26,6 +27,7 @@ public class RubricaUI {
     private boolean modificaIsPressed = false;
     private JButton indietroRubricaUI;
     private JTextField ricercaField;
+    private JButton caricaButtonRubrica;
     private final static RubricaUI rubricaUIinstance = new RubricaUI();
 
     /**
@@ -110,6 +112,30 @@ public class RubricaUI {
             public void keyReleased(KeyEvent e) {
 
             }
+        });
+        caricaButtonRubrica.addActionListener(e->{
+            String emailList = "";
+            int firstSelectedRow = rubricaTable.getSelectedRow();
+            int nRowSelected = rubricaTable.getSelectedRowCount();
+            if (firstSelectedRow == -1){
+                JOptionPane.showMessageDialog(null, "Seleziona almeno una riga!!");
+            }else {
+                System.out.println(firstSelectedRow+" "+nRowSelected);
+                if (nRowSelected == 1){
+                    emailList += rubricaTable.getValueAt(firstSelectedRow,0);
+                    emailList += ",";
+                }else {
+                    for (int i = firstSelectedRow; i <= firstSelectedRow+firstSelectedRow; i++){
+                        System.out.println("Dentro");
+                        emailList += rubricaTable.getValueAt(i,0);
+                        emailList += ",";
+                    }
+                }
+                System.out.println(emailList);
+                SenderUI.senderUIInstance.setTo(emailList);
+                PanelManage.loadSendPanel(e);
+            }
+
         });
     }
 
@@ -198,6 +224,13 @@ public class RubricaUI {
 
     public void setModificaIsPressed(boolean modificaIsPressed) {
         this.modificaIsPressed = modificaIsPressed;
+    }
+
+    public void setEnableCaricaButton(){
+        caricaButtonRubrica.setEnabled(true);
+    }
+    public void setDisableCaricaButton(){
+        caricaButtonRubrica.setEnabled(false);
     }
 
     /**
