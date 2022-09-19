@@ -11,6 +11,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -71,6 +72,7 @@ public class RubricaUI {
                     ((DefaultTableModel)rubricaTable.getModel()).removeRow(i);
                 }
             }
+            Rubrica.getRubricaInstance().salvaRubricaGson();
         });
         modificaButton.addActionListener(e->{
             int firstSelecteRow = rubricaTable.getSelectedRow();
@@ -84,12 +86,16 @@ public class RubricaUI {
             ContattoUI.getContattoUIInstance().getTelefonoContattoUI().setText((String) telefono);
             setModificaIsPressed(true);
             PanelManage.loadConattoPanel(e);
+            Rubrica.getRubricaInstance().salvaRubricaGson();
         });
         indietroRubricaUI.addActionListener(e->{
-            PanelManage.loadCreaCaricaConfigPanel();
+            if (SenderUI.senderUIInstance.isCaricaDaRubricaButtonPressed()){
+                PanelManage.loadSendPanel(e);
+            }else {
+                PanelManage.loadCreaCaricaConfigPanel();
+            }
         });
         ricercaField.addKeyListener(new KeyListener() {
-            StringBuilder ricercaString = new StringBuilder();
             List<Character> charsListRicerca = new ArrayList<>();
             @Override
             public void keyTyped(KeyEvent e) {
@@ -113,6 +119,7 @@ public class RubricaUI {
 
             }
         });
+
         caricaButtonRubrica.addActionListener(e->{
             String emailList = "";
             int firstSelectedRow = rubricaTable.getSelectedRow();
@@ -170,11 +177,16 @@ public class RubricaUI {
      * la rubrica con i suoi contatti ed i suoi dati dal file Gson rubrica.
      */
     public void aggiornaRubricaUI(){
+        deleteAllRow();
         System.out.println("aggiornata");
         //rubricaTable.setAutoCreateRowSorter(true);
         List<Contatto> rubricaList = Rubrica.getRubricaInstance().getContattiRubrica();
+        for (Contatto contatto : rubricaList) {
+            ((DefaultTableModel)rubricaTable.getModel()).addRow(contatto.getDatiContatto().toArray());
+        }
         //model.addRow(rubricaList.toArray());
         //int row = model.getRowCount() - 1;
+        /*
         int row = 0;
         //System.out.println(row);
         if (!rubricaList.isEmpty()) {
@@ -189,6 +201,7 @@ public class RubricaUI {
                 row++;
             }
         }
+        */
     }
 
     /**
@@ -197,7 +210,6 @@ public class RubricaUI {
      */
     public void aggiornaRubricaUI(List<Contatto> contattoList){
         deleteAllRow();
-        System.out.println("2");
         System.out.println("aggiornata Ricerca");
         if (!contattoList.isEmpty()) {
             for (Contatto contatto : contattoList) {
@@ -239,17 +251,41 @@ public class RubricaUI {
      * @param characterList contatti che fanno match con la stringa di ricerca
      */
     public void aggiornaRubricaRicerca(List<Character> characterList){
+        deleteAllRow();
+        if (characterList.isEmpty()){
+            aggiornaRubricaUI();
+        }
         String ricercaString = "";
         List<Contatto> contattiRicercati = new ArrayList<>();
+        /*
         for (Character chars : characterList) {
             ricercaString += chars;
         }
+         */
+        System.out.println(Arrays.toString(contattiRicercati.toArray()));
         for (Contatto contatto : Rubrica.getRubricaInstance().getContattiRubrica()) {
             String stringaVerifica = contatto.getDatiContatto().get(0);
-            if (stringaVerifica.startsWith(ricercaString) || stringaVerifica.contains(ricercaString) ){
+            char[] stringaVerificaArr = stringaVerifica.toCharArray();
+            int index = 0;
+            for (char ch : characterList) {
+                System.out.println(ch+" "+stringaVerificaArr[index]);
+                if (ch == stringaVerificaArr[index]) {
+                    if (characterList.size()-1 == index){
+                        contattiRicercati.add(contatto);
+                        aggiornaRubricaUI(contattiRicercati);
+                    }
+                }else {
+                    break;
+                }
+                index++;
+            }
+            /*
+            if (stringaVerifica.startsWith(ricercaString)){
                 contattiRicercati.add(contatto);
                 aggiornaRubricaUI(contattiRicercati);
             }
+
+             */
 
         }
         System.out.println(ricercaString);

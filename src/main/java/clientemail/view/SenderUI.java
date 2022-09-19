@@ -49,6 +49,7 @@ public class SenderUI {
     private JButton salvaCaricaMsgButton;
     private JButton imgToTextButton;
     private JButton caricaDaRubricaButton;
+    private boolean caricaDaRubricaButtonPressed = false;
     private JButton indietroSenderUI;
     private Path path;
     private StringBuilder stringBuilder = new StringBuilder();
@@ -152,6 +153,7 @@ public class SenderUI {
         });
         caricaDaRubricaButton.addActionListener(e->{
             RubricaUI.getRubricaUIinstance().setEnableCaricaButton();
+            this.caricaDaRubricaButtonPressed = true;
             PanelManage.loadRubricaPanel(e);
         });
         salvaCaricaMsgButton.addActionListener(e->{
@@ -369,6 +371,14 @@ public class SenderUI {
     }
     public void setToFocusable(boolean bool){
         to.setEnabled(bool);
+    }
+
+    public boolean isCaricaDaRubricaButtonPressed() {
+        return caricaDaRubricaButtonPressed;
+    }
+
+    public void setCaricaDaRubricaButtonPressed(boolean rubricaButtonPressed) {
+        this.caricaDaRubricaButtonPressed = rubricaButtonPressed;
     }
 
     /**

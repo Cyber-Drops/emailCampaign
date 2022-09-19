@@ -43,7 +43,6 @@ public class CreaCaricaConfig {
     }
     private void initComponent(){
         CreaConfigButton.addActionListener(e->{
-
             String pathWork = PathSelector.getPathWork();
             if (!pathWork.equals("annulla")){
                 PanelManage.loadPanel(e);
@@ -54,11 +53,13 @@ public class CreaCaricaConfig {
         });
         CaricaConfigButton.addActionListener(e->{
             caricaButtonPressed = true;
+            SenderUI.senderUIInstance.getLoadConfigButton().setEnabled(true);
             PanelManage.loadConfigPanel(e);
             //PanelManage.loadSendPanel(e);
         });
-
         rubricaButton.addActionListener(e->{
+            RubricaUI.getRubricaUIinstance().setDisableCaricaButton();
+            SenderUI.senderUIInstance.setCaricaDaRubricaButtonPressed(false);
             PanelManage.loadRubricaPanel(e);
         });
     }
