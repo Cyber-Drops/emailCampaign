@@ -47,33 +47,33 @@ public class ManagerAllegati {
         StringBuilder stringBuilder = new StringBuilder();
         listaAllegati = listaAllegati.replace("[","");
         listaAllegati = listaAllegati.replace("]","");
-        String[] allegatiArray = listaAllegati.split(",");
-
-        System.out.println("-----------"+stringBuilder);
-
-        System.out.println(Arrays.toString(allegatiArray));
-        System.out.println(Arrays.toString(Sender.attachFile.toArray()));
-        try {
-            for (String f : allegatiArray) {
-                f = f.strip();
-                File file = new File(f);
-                if (!Sender.attachFile.contains(f)) {
-                    Sender.attachFile.add(file);
-                }
-                System.out.println("<<<<"+Arrays.toString(Sender.attachFile.toArray()));
-                for (File file_name : Sender.attachFile) {
-                    if (!stringBuilder.toString().contains(file_name.getName())){
-                        stringBuilder.append(file_name.getName().concat("\n"));
+        if (!listaAllegati.isEmpty()){
+            String[] allegatiArray = listaAllegati.split(",");
+            try {
+                for (String f : allegatiArray) {
+                    f = f.strip();
+                    File file = new File(f);
+                    if (!Sender.attachFile.contains(f)) {
+                        Sender.attachFile.add(file);
+                    }
+                    System.out.println("<<<<"+Arrays.toString(Sender.attachFile.toArray()));
+                    for (File file_name : Sender.attachFile) {
+                        if (!stringBuilder.toString().contains(file_name.getName())){
+                            stringBuilder.append(file_name.getName().concat("\n"));
+                        }
                     }
                 }
+
+                System.out.println("-----------"+stringBuilder);
+
+                SenderUI.senderUIInstance.getAttachText().setText(stringBuilder.toString());
+            }catch(Exception ex){
+                throw new RuntimeException(ex);
             }
-
-            System.out.println("-----------"+stringBuilder);
-
-            SenderUI.senderUIInstance.getAttachText().setText(stringBuilder.toString());
-        }catch(Exception ex){
-            throw new RuntimeException(ex);
         }
+        System.out.println("-----------"+stringBuilder);
+        System.out.println(Arrays.toString(Sender.attachFile.toArray()));
+
     }
 
     /**

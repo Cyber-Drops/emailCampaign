@@ -51,8 +51,9 @@ public class SenderUI {
     private JButton caricaDaRubricaButton;
     private boolean caricaDaRubricaButtonPressed = false;
     private JButton indietroSenderUI;
+    private JButton emojiButton;
     private Path path;
-    private StringBuilder stringBuilder = new StringBuilder();
+    private StringBuilder stringBuilder = new StringBuilder(); //Corpo messaggio
     private int n = 0;
     private int posizioneCursore;
     private String cid;
@@ -305,6 +306,9 @@ public class SenderUI {
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
+        });
+        emojiButton.addActionListener(e->{
+            PanelManage.loadEmoticonPanel(e);
         });
     }
  /*
@@ -594,6 +598,7 @@ public class SenderUI {
     public String parseHtml(){
         long conta= stringBuilder.toString().chars().filter(ch -> ch == '◙').count(); //Inverse White Circle
         long conta1 = stringBuilder.toString().chars().filter(ch -> ch == '◘').count(); //Inverse Bullet
+        long conta2 = stringBuilder.toString().chars().filter(ch -> ch == '+').count();
         System.out.println("conta1"+conta1);
         //for (String st : stringBuilder.toString().lines().toList()) {
             //System.out.println(st);

@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import javax.swing.*;
 import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,6 +49,7 @@ public class MsgManager {
     public void caricaMsg(){
         try {
             File file = PathSelector.getFileSrc();
+            System.out.println("---->>>>>"+file.getAbsolutePath());
             FileReader reader = new FileReader(file);
             Salvataggio salvataggio = gsonSalvataggio.fromJson(reader, Salvataggio.class);
             //SenderUI.senderUIInstance.getFrom().setText(salvataggio.from);
@@ -62,8 +64,8 @@ public class MsgManager {
             SenderUI.senderUIInstance.setListaCid(salvataggio.listaCid);
             SenderUI.senderUIInstance.setStringBuilder(salvataggio.htmlStringBuilder);//Carico lo StringBuilder
             SenderUI.senderUIInstance.setPosizioneCursore(salvataggio.posizioneCursore);
-            System.out.println(">>>>>>"+salvataggio.allegati);
             ManagerAllegati.caricaAllegati(salvataggio.allegati);
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

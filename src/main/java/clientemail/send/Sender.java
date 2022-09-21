@@ -131,9 +131,11 @@ public class Sender {
                 message.addRecipients(Message.RecipientType.CC, ccAddress);
             }
             message.setSubject(objectEamil);// Imposto il campo oggetto dell' header
-            messaggeBody.setContent(corpoMessaggio,"text/html");// Imposto il corpo del messaggio ed il tipo
+            messaggeBody.setContent(corpoMessaggio,"text/html; charset=UTF-8");// Imposto il corpo del messaggio ed il tipo
             //Includo tutti i Mimepart
+
             multipartMessagge.addBodyPart(messaggeBody);// aggiungo i vari Mimepart al parametro di classe multipartmessagge,
+
             // messageBody, allegati
             if (!attachFile.isEmpty()) {
                 for (File file : attachFile) {

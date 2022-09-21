@@ -134,6 +134,15 @@ public class PanelManage {
         return true;
     }
 
+    public static void loadEmoticonPanel(ActionEvent event){
+        Container container = ((JButton) event.getSource()).getParent();
+        while (!(container instanceof JFrame)){
+            container = container.getParent();
+        }
+        ((JFrame) container).setContentPane(Emoticon.getEmoticonInstance().getEmoticonPanel());
+        container.revalidate();
+    }
+
     public static void loadHelpPanel(ActionEvent event){
         Container container = ((JButton) event.getSource()).getParent();
         while (!(container instanceof JFrame)){
