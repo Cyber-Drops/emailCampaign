@@ -1,0 +1,35 @@
+package clientemail.utils;
+
+import java.util.List;
+
+public class Contatto {
+
+    private List<String> datiContatto; //Lista di String dati del contatto
+
+    /**
+     * Costruttore di un Contatto, crea un oggetto di tipo contatto
+     * @param dati oggetto di tipo lista di String
+     */
+
+    public Contatto(List<String> dati){
+        this.datiContatto = dati;
+    }
+
+    public List<String> getDatiContatto() {
+        return datiContatto;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder contattoString = new StringBuilder();
+        int i = 0;
+        for (String dato : datiContatto) {
+            contattoString.append(dato);
+            if (i < 3){
+                contattoString.append(",");
+            }
+            i++;
+        }
+        return contattoString.toString();
+    }
+}

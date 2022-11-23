@@ -1,0 +1,27 @@
+INFO: In caso di stop inatteso dell'app, ti verra' richiesto di inviare la notifica all'amministratore, se scegli SI sara' inviata una email dalla tua casella verso l'email
+      dell'amministratore. Potrai avere riscontro di cio' nella tua posta inviata. Se scegli no l'errore non verra' notificato all'amministratore.
+###############################
+##PRIMA CONFIGURAZIONE APP:##
+ 1) Avviare l'app e selezionare la destinazione del file.conf;
+ 2) Inserire nel primo campo lo username di gmail (es. propriaemail@gmail.com);
+ 3) Inserire nel secondo campo la password (Generata come vedi sotto..);
+################################
+##GENERAZIONE PASSWORD APP##
+ 1) Accedere su google.com con il proprio account;
+ 2) Andare su Gestisci il tuo account google (in alto a dx, icona dell'account);
+ 3) Cliccare su sicurezza (menu a sx);
+ 4) Cliccare su Password per le App;
+ 5) Su seleziona app inserire Posta, Su seleziona dispositivo inserire il tipo di dispositivo;
+ 6) Clicca su genera, COPIA ED INCOLLA LA PASSWORD QUANDO CONFIGURI L'APP CAMPAGNA EMAIL
+################################
+##CARICAMENTO CONFIGURAZIONE##
+ 1) Clicca Load Config;
+#########################
+##CARICA FILE CON EMAIL##
+ 1) Clicca su  FileMail:
+ 2) Seleziona il file con le emial .txt;
+##################
+##ALLEGARE FILE##
+ 1) Clicca su Allega;
+ 2) Seleziona il file da allegare;
+ 3) Per allegare piu' file, ripetere la procedura;
